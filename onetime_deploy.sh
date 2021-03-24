@@ -10,7 +10,7 @@
 kubectl apply -f ./docker-secret.yaml
 
 # to create storage class
-kubectl apply -f ./storage_class/storage_class.yml 
+kubectl apply -f ./storage_class/ 
 
 # to create NFS Provisioner for wildfly
 helm upgrade -i nfs-giggso nfs-server -f ./nfs-server/values.yaml
@@ -23,7 +23,7 @@ helm upgrade -i giggso-mariadb mariadb-cluster -f ./mariadb-cluster/values-produ
 
 # to create elasticsearch cluster
  # To create data node group
-helm upgrade -i es-data elasticsearch -f ./elasticsearch/data.yml
+helm upgrade -i es-giggsodata elasticsearch -f ./elasticsearch/giggsodata.yml
 sleep 2m
  # To create ingest nodegroup
 helm upgrade -i es-ingest elasticsearch -f ./elasticsearch/ingest.yml
