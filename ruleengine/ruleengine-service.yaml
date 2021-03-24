@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: giggso-ruleengine
+  name: giggso-ruleengine
+spec:
+  type: ClusterIP
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  selector:
+    service: giggso-ruleengine
+

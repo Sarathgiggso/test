@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: correlated-events
+  name: correlated-events
+spec:
+  type: ClusterIP
+  ports:
+  - name: "8203"
+    port: 8203 
+    targetPort: 8203
+  selector:
+    service: correlated-events
+

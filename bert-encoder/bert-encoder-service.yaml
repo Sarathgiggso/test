@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: bert-encoder
+  name: bert-encoder
+spec:
+  type: ClusterIP
+  ports:
+  - name: "8190"
+    port: 8190
+    targetPort: 8190
+  selector:
+    service: bert-encoder
+

@@ -1,0 +1,37 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: gglogsrollover
+spec:
+  schedule: "* 6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          imagePullSecrets:
+          - name: docker-secret
+          containers:
+          - name: gglogsrollover
+            image: ubuntu:18.04
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/bash
+            - -c
+            - |- 
+              (apt update -y) && (apt install curl -y) && (./run.sh)
+              #(curl -XPOST http://elasticsearch:9200/gglogs/_rollover -H "content-type:application/json" -d '{  "conditions": {    "max_age":   "1d"  }}')
+              #curl -XGET 'elasticsearch:9200/_cat/allocation?v'
+              #- curl -XPOST http://elasticsearch:9200/gglogs/_rollover -H "content-type:application/json" -d '{  "conditions": {    "max_age":   "1d"  }}'
+              #date; echo Hello from the Kubernetes cluster
+            volumeMounts:
+            - mountPath: ./run.sh
+              subPath: run.sh
+              name: es-rollover-cfg
+              readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+          - name: es-rollover-cfg
+            configMap:
+              name: es-rollover-cfg
+              defaultMode: 0777
+

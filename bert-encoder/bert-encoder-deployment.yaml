@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: bert-encoder
+  name: bert-encoder
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: bert-encoder
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: bert-encoder
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-bert-encoder-uat
+        #giggsodocker/bert-encoder
+        name: bert-encoder
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "6Gi"
+        ports:
+        - containerPort: 8190
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

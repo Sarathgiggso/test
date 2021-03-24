@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: php
+  name: php
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      service: php
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: php
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - args:
+        - bash
+        - -c
+        - /usr/sbin/apache2ctl -D FOREGROUND
+        image: giggsodocker/giggso-tpapp-uat
+        #giggsodocker/php-k8
+        imagePullPolicy: "Always"
+        name: php
+        ports:
+        - containerPort: 80
+        resources: {}
+        volumeMounts:
+        - mountPath: /etc/apache2/sites-enabled/000-default.conf
+          name: sites-enabled
+          subPath: 000-default.conf
+        - mountPath: /usr/local/etc/php/conf.d/grpc.ini
+          name: php-extentions
+          subPath: grpc.ini
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: sites-enabled
+        configMap:
+          name: sites-enabled
+      - name: php-extentions
+        configMap:
+          name: php-extentions

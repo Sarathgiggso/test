@@ -1,0 +1,1 @@
+{"ggtrackings":{"mappings":{"properties":{"lastAccessTime":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}},"resourceId":{"type":"long"},"viewedFeeds":{"type":"text","analyzer":"a5"}}}}}

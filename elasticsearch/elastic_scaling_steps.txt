@@ -1,0 +1,41 @@
+Action Items for PVC scaling caliber UAT :
+
+Elastic node scale down
+PVC volume scale up
+Elastic node scaleup
+Check the data sync and its working
+Update the volume size in giggsodata.yml
+Helm recreation.
+
+Steps: 
+
+Run scaledown.sh
+
+ kubectl scale sts docker-cluster-giggsodata --replicas=0
+Run pvc_scaling.sh
+ 
+kubectl get pvc docker-cluster-giggsodata-docker-cluster-giggsodata-0 -o yaml | sed "s/\(storage:.*$\)/storage: 500Gi/g" | kubectl replace -f -
+kubectl get pvc docker-cluster-giggsodata-docker-cluster-giggsodata-1 -o yaml | sed "s/\(storage:.*$\)/storage: 500Gi/g" | kubectl replace -f -
+
+Run scaleup.sh
+kubectl scale sts docker-cluster-giggsodata --replicas=2
+
+Testing
+Update the volume size in giggsodata.yml
+Run helm_recreation.sh
+  helm delete es-giggsodata
+  sleep 3m
+  helm upgrade -i es-giggsodata elasticsearch -f ./elasticsearch/giggsodata.yml
+Done in above script itself
+Restart elastic if needed and restart web
+helm upgrade -i es-giggsodata elasticsearch -f ./elasticsearch/giggsodata.yml --recreate-pods
+sleep 2m
+ # To create ingest nodegroup
+helm upgrade -i es-ingest elasticsearch -f ./elasticsearch/ingest.yml --recreate-pods
+
+# To create master nodegroup
+helm upgrade -i es-master elasticsearch -f ./elasticsearch/master.yml --recreate-pods
+
+ # To create client nodegroup
+helm upgrade -i es-client elasticsearch -f ./elasticsearch/client.yml --recreate-pods
+Kubectl rollout restart deploy web

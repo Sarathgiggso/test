@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  logstash:
+    image:  logstash:7.8.0
+    container_name: logstash
+    volumes:
+      -  ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      -  ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+            #- "5000:5000"
+      - "5000:5000/udp"
+      - "5044:5044"
+        #- "5001:5001"
+        #- "5001:5001/udp"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - ls
+networks:
+  ls:
+    #driver: host
+    driver: bridge

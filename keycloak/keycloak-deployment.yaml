@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: keycloak
+  name: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: keycloak
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: keycloak
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      serviceAccountName: jgroups-kubeping-service-account
+      containers:
+      - env:
+        - name: DB_ADDR
+          value: "10.4.0.7"
+        - name: DB_DATABASE
+          value: keycloak
+        - name: DB_PASSWORD
+          value: ggpwd
+        - name: DB_USER
+          value: gguser
+        - name: DB_VENDOR
+          value: mariadb
+        - name: DB_PORT
+          value: "3306"
+        - name: JGROUPS_DISCOVERY_PROPERTIES
+          value: port_range=0,dump_requests=true
+        - name: JGROUPS_DISCOVERY_PROTOCOL
+          value: kubernetes.KUBE_PING
+        - name: KEYCLOAK_DB
+          value: keycloak
+        - name: KEYCLOAK_PASSWORD
+          value: Pa55w0rd
+        - name: KEYCLOAK_USER
+          value: admin
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        - name: KEYCLOAK_LOGLEVEL
+          value: "WARN"
+        - name: ROOT_LOGLEVEL
+          value: "WARN"
+        #image: jboss/keycloak:11.0.0
+        image: giggsodocker/giggso-keycloak
+        imagePullPolicy: "Always"
+        name: keycloak-mariadb
+        ports:
+        - containerPort: 8080
+        - containerPort: 8443
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/jboss/giggsorealm.json
+          subPath: giggsorealm.json
+          name: keycloak-config
+      restartPolicy: Always
+      volumes:
+      - name: keycloak-config
+        configMap:
+          name: giggsorealm
+

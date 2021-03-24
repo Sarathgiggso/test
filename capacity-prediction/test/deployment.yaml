@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atjrmxubjmxls4z0l8m2
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: capacity
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: capacity
+    spec:
+      containers:
+      - env:
+         - name: jobId
+           value: "13423"
+         - name: JOB_INTERVAL
+           value: "1"
+         - name: INDEX
+           value: "ggmetricbeat"
+         - name: AGGR_INTERVAL
+           value: "hour"
+         - name: AGGR_FIELDS
+           value: "system.core.user.pct"
+         - name: ELASTICSEARCH_URL
+           value: 13.92.225.227
+         - name: WILDFLY_ENDPOINT
+           value: "web:808"
+         - name: AGGR_TYPE
+           value: avg
+         - name:  USER_ID
+           value: "3090"
+         - name: EMAIL 
+           value: "ggtestuser@giggso.com"
+         - name: TAGGED_GROUPS
+           value: "47531"
+        #image: datatrine/logstash_dts:5.5.2
+        image:  p156058/capacityjob
+        imagePullPolicy: "Always"
+        name: capacityjob
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""

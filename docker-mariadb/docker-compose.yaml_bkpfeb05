@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+ mariadb:
+ #    build: ./mariadb
+      image: mariadb:10.5
+      container_name: mariadb
+      volumes:
+        - /data/mariadb:/var/lib/mysql
+        - /data/mariadb_dbscripts/database_creation/:/docker-entrypoint-initdb.d
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: gguser
+        MYSQL_PASSWORD: ggpwd
+      ports:
+        - 3306:3306
+      networks:
+        - elk
+networks:
+  elk:
+    driver: bridge
+

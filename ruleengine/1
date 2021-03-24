@@ -1,0 +1,37 @@
+apiVersion: v1
+data:
+  rulemicroservice.properties: |
+    ##########################################################################################################
+    ###### Elastic Search Source Configuration ###############################################################
+    SOURCE_SCHEMA=http
+    SOURCE_HOST=elasticsearch
+    SOURCE_PORT=9300
+    SOURCE_REST_PORT=9200
+    SOURCE_HOST_USERNAME=elastic
+    SOURCE_HOST_PASSWORD=changeme
+    SOURCE_HOST_CONNECTION_TIMEOUT=100
+
+    ##########################################################################################################
+    ###### Rest Template Configuration #######################################################################
+
+    GIGGSO_BASE_URL=http://127.0.0.1:8080/giggzo-0.0.1-SNAPSHOT/rest/
+    RULE_URL=rules/v2/processRule
+    ERROR_ACTION_RULE_ID=5134
+
+    ##########################################################################################################
+    ###### Pulsar Configuration ##############################################################################
+
+    PULSAR_SERVICE_URL=pulsar://pulsar:6650
+    #PULSAR_SERVICE_URL=pulsar://127.0.0.1:6650
+    PULSAR_GGLOGS_RULE_TOPIC=process_gglogs_rule_topic
+
+    ##########################################################################################################
+    ###### Spring Boot Configuration ##############################################################################
+
+    SERVER_PORT=8123
+
+    ########################################################################################################
+kind: ConfigMap
+metadata:
+  name: ruleengine-config
+

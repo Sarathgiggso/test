@@ -1,0 +1,82 @@
+apiVersion: v1
+data:
+  external_config.properties: |
+
+    applicationDownloadPath = https://ggdev.giggso.com/staticFiles/
+
+    applicationUploadPath = /opt/jboss/wildfly/standalone/giggso_attachments/
+
+    #EMAIL CONFIGURATION
+
+    mail.username=SMTP_Injection
+
+    mail.password=fc13ae51ea3c5473d080cd400be1d1ee80a7a3bf
+
+    mail.smtphost=smtp.sparkpostmail.com
+
+    mail.smtpport=587
+
+    mail.debug=false
+
+    mail.from=alerts@giggso.com
+
+    #OKTA ENDPOINTS
+
+    okta.api.key = 00S5CXmrVKW_-XmrzCqzBHZGXv-9KdwTu4Gd8suG9f
+
+    okta.endpoint.user.fetch = https://chl-uat.oktapreview.com/api/v1/users/
+
+    okta.endpoint.reset.password.initiate = https://chl-uat.oktapreview.com/api/v1/authn/recovery/password
+
+    okta.endpoint.reset.password.statetoken = https://chl-uat.oktapreview.com/api/v1/authn/recovery/token
+
+    okta.endpoint.reset.password.securityQuestion = https://chl-uat.oktapreview.com/api/v1/authn/recovery/answer
+
+    okta.endpoint.reset.password = https://chl-uat.oktapreview.com/api/v1/authn/credentials/reset_password
+
+    okta.endpoint.unlock.password.initiate = https://chl-uat.oktapreview.com/api/v1/authn/recovery/unlock
+
+    #Servicenow KB Endpoints
+
+    servicenow.url = http://php:80/servicenow/index.php?task=fetch&table=kb_knowledge&instance=
+
+    servicenow.auth.key = YWRtaW46V2VsY29tZTEyMyM=
+
+    servicenow.instance = dev76617
+
+    trello.post.url = http://php:80/trello/
+
+    servicenow.post.url =  http://php:80/servicenow/index.php?task=create&table=incident&instance=
+
+    socketio.url = https://ggdev.giggso.com/realtime
+
+    route.base.url = https://ggdev.giggso.com/router?pageTo=
+
+    beats.url =  http://giggso-logingestion:5000/FetchConfiguration
+
+    askgiggso.related.post = http://ask-giggso:8080/api/predict/relative
+
+    askgiggso.post.analytics = http://ask-giggso:8080/api/predict/postAnalytics
+
+    askgiggso.customerid = http://ask-giggso:8080/api/extract/UserId
+
+    askgiggso.workflow.prediction = http://ask-giggso:8204/askGiggso/workflow/predict
+
+    askgiggso.smart.insights = http://ask-giggso:8202/smartInsights/getSimilarConversations
+
+    askgiggso.proposed.flow = http://gg-recommendations:8202/smartInsights/getWorkflow
+
+    askgiggso.solution.recommendation = http://gg-recommendations:8202/smartInsights/getRecommendedSolutions
+
+    askgiggso.capacity.labels = http://capacity-report:8082/fetch_labels
+
+    askgiggso.capacity.predictions = http://capacity-report:8082/fetch_prediction
+
+    askgiggso.correlated.event = http://correlated-events:8203/rca/correlatedEvents
+
+    askgiggso.timeline.analysis = http://giggso-aiml-rca:8202/rca/getTimelineDetails 
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: jboss-external-config

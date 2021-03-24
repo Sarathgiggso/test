@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  onetime.sh: |
+    #!/bin/bash
+
+    echo "* Request for authorization"
+    RESULT=`curl -k --data "username=admin&password=Pa55w0rd&grant_type=password&client_id=admin-cli" https://keycloak:8443/auth/realms/master/protocol/openid-connect/token`
+
+    echo "\n"
+    echo "* Recovery of the token"
+    TOKEN=`echo $RESULT | sed 's/.*access_token":"//g' | sed 's/".*//g'`
+
+    echo "\n"
+    echo "* Display token"
+    echo $TOKEN
+
+    echo "\n"
+    echo " * user creation\n"
+    curl -k -v https://keycloak:8443/auth/admin/realms/giggso/users -H "Content-Type: application/json" -H "Authorization: bearer $TOKEN"   --data '{"username":"botuser@giggso.com", "email":"botuser@giggso.com","firstName":"Giggso","lastName":"Bot", "enabled":"true","emailVerified": "true","credentials":[{"type":"password","temporary":false,"value":"Temp@123"}]}'
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: onetime

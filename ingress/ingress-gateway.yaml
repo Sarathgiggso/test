@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: giggso-ingress
+  annotations:
+   kubernetes.io/ingress.class: "nginx"
+   nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+   nginx.org/proxy-buffers: "8 32k"
+   nginx.org/proxy-buffer-size: "32k"
+   nginx.org/websocket-services: angular
+
+spec:
+        # adding tls secret for the domains mentioned
+  tls:
+    - hosts:
+      - ggdev.giggso.com
+      - ggdevkc.giggso.com
+      secretName: test-cert-tls
+  rules:
+          # routing to keycloak service based on host
+  - host: ggdevkc.giggso.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: keycloak
+          servicePort: 8080
+        # routing to  the services based on host and path
+  - host: ggdev.giggso.com
+    http:
+      paths:
+        # to PHP Service
+      - path: /app
+        backend:
+          serviceName: php
+          servicePort: 8999
+        # to wildfly service
+      - path: /giggso_kc
+        backend:
+          serviceName: web
+          servicePort: 8080
+        # to wildfly service
+      - path: /staticFiles
+        backend:
+          serviceName: web
+          servicePort: 8080
+        # to nodejs service
+      - path: /realtime
+        backend:
+          serviceName: angular
+          servicePort: 8111
+        #to angular service
+      - path: /
+        backend:
+          serviceName: angular
+          servicePort: 4201
+        # to giggso-aiml-sme service
+

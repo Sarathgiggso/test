@@ -1,0 +1,158 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: web
+  name: web
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: web
+      app: web
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: web
+        app: web
+    spec:
+      serviceAccountName: jgroups-kubeping-service-account
+      nodeSelector:
+        kubernetes.io/hostname: giggso01-worker
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+        #name: kube-ping
+      - command: ["/opt/jboss/wildfly/bin/standalone.sh"]
+        args: ["--server-config", "standalone-full-ha.xml", "-b", $(POD_IP), "-bmanagement", $(POD_IP) ,"-bprivate", $(POD_IP) ]
+        env:
+        - name: DB_URI
+          value: '10.4.0.7:3306'
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: KUBERNETES_LABELS
+          value: app=web
+        - name: JAVA_OPTS
+          value: "-Djdk.tls.client.protocols=TLSv1.2 -Djboss.as.management.blocking.timeout=3600"
+        - name: DEBUG
+          value: ' true'
+        - name: LC_ALL
+          value: en_US.UTF-8
+      #  - name: mariadb_giggso_password
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_giggso_password
+      #        name: env
+      #  - name: mariadb_giggso_schema
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_giggso_schema
+      #        name: env
+      #  - name: mariadb_giggso_user
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_giggso_user
+      #        name: env
+      #  - name: mariadb_hostname
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_hostname
+      #        name: env
+      #  - name: mariadb_keycloak_password
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_keycloak_password
+      #        name: env
+      #  - name: mariadb_keycloak_schema
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_keycloak_schema
+      #        name: env
+      #  - name: mariadb_keycloak_user
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_keycloak_user
+      #        name: env
+      #  - name: mariadb_port
+      #    valueFrom:
+      #      configMapKeyRef:
+      #        key: mariadb_port
+      #        name: env
+        image: giggsodocker/wildfly-k8-uat 
+        #image: giggsodocker/wildfly-k8-uat-chl
+        #p156058/wildfly-v5.2:latest 
+        #p156058/wildfly-v5.2:latest
+        name: kube-ping
+        imagePullPolicy: "Always"
+        name: wildfly
+        ports:
+        - containerPort: 8080
+        - containerPort: 8443
+        - containerPort: 9993
+        - containerPort: 9990
+        resources: {}
+        volumeMounts:
+        - mountPath: /root/pyjavatest/final_cluster.py
+          subPath: final_cluster.py
+          name: final-cluster
+          readOnly: true
+        - mountPath: /opt/jboss/keycloak.json
+          subPath: keycloak.json
+          name: keycloak-json
+          readOnly: true
+        - mountPath: /opt/jboss/onetime.sh
+          subPath: onetime.sh
+          name: onetime
+        - mountPath: /root/pyjavatest/entrypoint.sh
+          subPath: entrypoint.sh
+          name: entrypoint
+        - mountPath: /opt/jboss/wildfly/standalone/log/
+          name: web-log
+        - mountPath: /opt/jboss/wildfly/standalone/giggso_attachments/
+          name: web-attachments
+        - mountPath: /opt/jboss/external_config.properties
+          subPath: external_config.properties
+          name: jboss-external-config
+          readOnly: true
+        - mountPath: /opt/jboss/config-server.cli
+          subPath: config-server.cli
+          name: server-config-cli
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: jboss-external-config
+        configMap:
+          name: jboss-external-config
+      - name: server-config-cli
+        configMap:
+          name: config-server-cli
+      - name: keycloak-json
+        configMap:
+          name: keycloak-json
+      - name: onetime
+        configMap:
+          name: onetime
+          defaultMode: 0777
+      - name: final-cluster
+        configMap:
+          name: final-cluster
+      - name: entrypoint
+        configMap:
+          name: entrypoint
+          defaultMode: 0777
+      - name: web-log
+        persistentVolumeClaim:
+          claimName: web-log
+      - name: web-attachments
+        persistentVolumeClaim:
+          claimName: web-attachments

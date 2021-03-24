@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: correlated-events
+  name: correlated-events
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: correlated-events
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: correlated-events
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - env:
+        - name: ELASTICSEARCH_URL
+          value: 'http://elasticsearch:9200'
+          #value: 'http://10.4.0.4:7201'
+        - name: LOG_PARSER
+          value: 'http://giggso-aiml-logparser:8201/parseLog'
+        image: giggsodocker/giggso-aiml-correlated-uat
+        #giggsodocker/correlated-events
+        name: correlated-events
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "2Gi"
+        ports:
+        - containerPort: 8203
+          #- containerPort: 2222
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

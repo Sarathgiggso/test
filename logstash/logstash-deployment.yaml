@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: logstash
+  name: logstash
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: logstash
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: logstash
+    spec:
+      containers:
+      - env:
+        - name: LS_JAVA_OPTS
+          value: -Xmx2024m -Xms2024m
+        #image: datatrine/logstash_dts:5.5.2
+        image: logstash:7.8.0
+        imagePullPolicy: "IfNotPresent"
+        name: logstash
+        resources:
+          requests:
+            cpu: "400m"
+            memory: "4Gi"
+          limits:
+            cpu: "1400m"
+            memory: "8Gi"
+        ports:
+        - containerPort: 5000
+        - containerPort: 5000
+          protocol: UDP
+        - containerPort: 5044
+          #        resources: {}
+        volumeMounts:
+        - mountPath: /usr/share/logstash/config/
+          #logstash.yml
+          name: logstash-config
+          readOnly: true
+        - mountPath: /usr/share/logstash/pipeline/
+          #logstash.conf
+          name: logstash-pipeline
+          readOnly: true
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: logstash-config
+        configMap:
+          name: logstash-config
+      - name: logstash-pipeline
+        configMap:
+          name: logstash-pipeline

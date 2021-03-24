@@ -1,0 +1,266 @@
+apiVersion: v1
+data:
+  final_cluster.py: "from sklearn.metrics import pairwise_distances_argmin_min\nfrom
+    bert_serving.client import BertClient\nfrom sklearn.cluster import KMeans\nimport
+    numpy as np\nimport json\nimport pprint\nimport argparse\nimport requests\nimport
+    re\n\nfrom nltk.tokenize import RegexpTokenizer\nfrom nltk.stem import WordNetLemmatizer\nimport
+    sklearn.metrics as metrics\nfrom sklearn.neighbors import NearestNeighbors\nfrom
+    scipy.spatial.distance import correlation, cosine\nfrom sklearn.metrics import
+    pairwise_distances\nimport pandas as pd\n\n\n# tuple sorting function\ndef customsort(t):\n
+    \   return list(t.values())[0]\n\ndef get_jaccard_sim(str1, str2): \n    str3
+    = str1[0]\n    str4 = str2\n    tokenizer = RegexpTokenizer(r'\\w+')\n    str3
+    = str3.lower()\n    str4 = str4.lower()\n    str3 = tokenizer.tokenize(str3)\n
+    \   str4 = tokenizer.tokenize(str4)\n    lemmatizer = WordNetLemmatizer()\n    new_str3
+    = []\n    new_str4 = []\n    for one_by in range(len(str3)):\n        new_str3.append(lemmatizer.lemmatize(str3[one_by]))\n
+    \   for one_tw in range(len(str4)):\n        new_str4.append(lemmatizer.lemmatize(str4[one_tw]))
+    \       \n    a = set(new_str3) \n    b = set(new_str4)    \n    c = a.intersection(b)\n
+    \   return len(c)\n    \n# servicenow serach clustering and algorithms\ndef clusterFinalOutput(data,
+    query_statement):\n    sent_list = []\n    for item4 in data['result']:\n        sent_list.append(item4['short_description'])\n\n
+    \   c = []\n    new_data = []\n    count_index = 0\n    for a_11 in sent_list:\n
+    \       if a_11 not in c:\n            c.append(a_11)\n            new_data.append(data['result'][count_index])\n
+    \       else:\n            pass\n        count_index += 1\n\n    data['result']
+    = new_data\n    \n    short_description = []\n    for one_by_one_sent in data['result']:\n
+    \       short_description.append(one_by_one_sent['short_description'])\n\n    bc
+    = BertClient(check_length=False)\n\n    X = bc.encode(short_description)\n\n    X_1
+    = bc.encode(query_statement)\n\n    modelkmeans = KMeans(n_clusters=3, init='k-means++',
+    max_iter=200, n_init=100)\n    modelkmeans.fit(X)\n\n    result_dict_1 = {'0th
+    cluster': [],\n                '1st cluster': [],\n                '2nd cluster':
+    []}\n\n    result = [result_dict_1['0th cluster'].append(short_description[iter_index])
+    if modelkmeans.labels_[iter_index] == 0 else result_dict_1['1st cluster'].append(short_description[iter_index])
+    if modelkmeans.labels_[iter_index] == 1  else result_dict_1['2nd cluster'].append(short_description[iter_index])
+    \ for iter_index in range(len(short_description))]\n\n    average_distance_index
+    = {\n        '0_cluster':[],\n        '1_cluster':[],\n        '2_cluster':[]\n
+    \   }\n\n    count_one = 0\n    for i in range(len(short_description)):\n        closest,
+    _ = pairwise_distances_argmin_min(modelkmeans.cluster_centers_, X[i].reshape(1,-1))\n
+    \       ind = np.where(_ == np.min(_))\n        if ind[0] == 0:\n            average_distance_index['0_cluster'].append({count_one:np.min(_)})\n
+    \       elif ind[0] == 1:\n            average_distance_index['1_cluster'].append({count_one:np.min(_)})\n
+    \       else:\n            average_distance_index['2_cluster'].append({count_one:np.min(_)})\n\n
+    \       count_one += 1\n\n    average_distance_index['0_cluster'].sort(key=customsort)\n
+    \   average_distance_index['1_cluster'].sort(key=customsort)\n    average_distance_index['2_cluster'].sort(key=customsort)\n\n
+    \   main_index_values = []\n    for itere, value in average_distance_index.items():\n
+    \       main_value = []\n        for jkl in value[:5]:\n            main_value.append(list(jkl.keys())[0])\n
+    \       main_index_values.append(main_value)\n\n    output_dict = {\n        '0_cluster':
+    [],\n        '1_cluster': [],\n        '2_cluster': []\n    }\n\n    count_two
+    = 0\n    for lk in main_index_values:\n        for val in lk:\n            if
+    count_two < 3:\n                output_dict[str(count_two)+'_cluster'].append(short_description[val])\n
+    \       count_two += 1\n\n    dict_2 = average_distance_index\n\n    new_result_list_2
+    = [j for key,valu in dict_2.items() for j in valu]\n\n    over_all_dict = {'total_val':new_result_list_2}\n\n
+    \   over_all_dict['total_val'].sort(key=customsort)\n\n    main_index_values_20
+    = []\n    for itere, value in over_all_dict.items():\n        main_value = []\n
+    \       for jkm in value:\n            main_value.append(list(jkm.keys())[0])\n
+    \       main_index_values_20.append(main_value)\n\n    distance_values = []\n
+    \   for hj in range(len(main_index_values_20[0])):\n        distance_values.append(np.linalg.norm(X_1
+    - X[main_index_values_20[0][hj]]))\n\n    distance_value_backup = sorted(distance_values)\n\n
+    \   if distance_value_backup[0] < 15:\n        new_list = []\n        for list_related
+    in distance_value_backup:\n            new_list.append(short_description[main_index_values_20[0][distance_values.index(list_related)]])\n
+    \       data_lat = data\n        to_be_added_list = []\n        for fg in range(len(new_list)):\n
+    \           new_count = 0\n            for dict_4 in data_lat['result']:\n                if
+    dict_4[\"short_description\"] == new_list[fg]:\n                    if new_count
+    == 0:\n                        temp_index = data_lat['result'].index(dict_4)\n
+    \                       to_be_added_list.append(data_lat['result'].pop(temp_index))\n
+    \                       new_count += 1\n                    else:\n                            break\n
+    \       data_l = {\"result\":[]}\n        data_l['result'] = to_be_added_list
+    + data_lat['result']\n        data_l['data_relevancy'] = \"found\"\n\n        count_6
+    = 0\n        top_sent = []\n        for check_one in data_l['result']:\n            #if
+    count_6 < 20:\n            if count_6 < len(short_description): \n                top_sent.append(check_one['short_description'])\n
+    \               count_6 += 1\n\n        dist_val_jc = []\n        for iter_sent
+    in top_sent:\n            dist_val_jc.append(get_jaccard_sim(query_statement,
+    iter_sent))\n\n        temp_result = tuple(zip(dist_val_jc, top_sent))\n        resutl_bkp
+    = sorted(temp_result, reverse=True)\n        # pprint.pprint(data_l)\n        data_l2
+    = data_l\n        to_be_added_list_1 = []\n        for gk in range(len(resutl_bkp)):\n
+    \           new_count1 = 0\n            for dict5 in data_l2['result']:\n                if
+    dict5[\"short_description\"] == resutl_bkp[gk][1]:\n                    if new_count1
+    == 0:\n                        temp_index1 = data_l2['result'].index(dict5)\n
+    \                       to_be_added_list_1.append(data_l2['result'].pop(temp_index1))\n
+    \                       new_count += 1\n                    else:\n                            break\n\n
+    \       data_l6 = {\"result\":[]}\n        data_l6['result'] = to_be_added_list_1
+    + data_l2['result']\n        data_l6['data_relevancy'] = \"found\"\n        #
+    return data_l\n        return data_l6\n          \n\n    else:\n        new_list
+    = []\n        for list_related in distance_value_backup:\n            new_list.append(short_description[main_index_values_20[0][distance_values.index(list_related)]])\n
+    \       data_lat = data\n        to_be_added_list = []\n        for fg in range(len(new_list)):\n
+    \           new_count = 0\n            for dict_4 in data_lat['result']:\n                if
+    dict_4[\"short_description\"] == new_list[fg]:\n                    if new_count
+    == 0:\n                        temp_index = data_lat['result'].index(dict_4)\n
+    \                       to_be_added_list.append(data_lat['result'].pop(temp_index))\n
+    \                       new_count += 1\n                    else:\n                        break\n
+    \       data_l = {\"result\":[]}\n        data_l['result'] = to_be_added_list
+    + data_lat['result']\n        data_l['data_relevancy'] = \"not found\"\n        return
+    data_l\n\ndef findksimilaritems(item_id, ratings, metric='cosine', k=4):\n    similarities=[]\n
+    \   indices=[]    \n    ratings=ratings.T\n    model_knn = NearestNeighbors(metric
+    = metric, algorithm = 'brute')\n    model_knn.fit(ratings)\n\n    distances, indices
+    = model_knn.kneighbors(ratings.iloc[item_id-1, :].values.reshape(1, -1), n_neighbors
+    = k+1)\n    similarities = 1-distances.flatten()\n\n    return similarities,indices\n\ndef
+    callsimilaritems(user_item):\n    N = np.asarray([[2,3,4,3,0,1],\n                    [2,1,5,4,2,4],\n
+    \                   [4,3,2,1,3,1],\n                    [1,0,3,4,5,0],\n                    [3,2,1,2,1,3]])\n
+    \   question_links = {'1':\"LTV\",\n                      '2':\"Loan Closing time\",\n
+    \                     '3':\"about education loan\",\n                      '4':\"what
+    are the lending guidelines\",\n                      '5':\"types of loans\",\n
+    \                     '6':\"interest rates\"}\n    for si_no, item in question_links.items():\n
+    \       if item == user_item:\n            user_item = int(si_no)\n    N=pd.DataFrame(N)\n
+    \   N.columns = ['LTV', 'loanclosetime', 'eduloan', 'lendguidelines', 'typesofloan','interestrates']\n
+    \   N.index = ['user1','user2','user3','user4','user5']\n    similarities_01,indices_01=findksimilaritems(user_item,N)\n
+    \   new_indices_01 = indices_01+1\n    new_indices_01 = new_indices_01[0][1:]\n
+    \   data_recom = {\"result\":[]}\n    for k in new_indices_01.tolist():\n        data_recom[\"result\"].append({\"short_description\":question_links[str(k)]})\n
+    \   \n    return data_recom\n\ndef clusterFinalOutput1(data, query_statement):\n
+    \   short_description = []\n    for one_by_one_sent in data['result']:\n        short_description.append(one_by_one_sent['short_description'])\n\n
+    \   bc = BertClient(check_length=False)\n\n    X = bc.encode(short_description)\n\n
+    \   X_1 = bc.encode(query_statement)\n\n    modelkmeans = KMeans(n_clusters=3,
+    init='k-means++', max_iter=200, n_init=100)\n    modelkmeans.fit(X)\n\n    result_dict_1
+    = {'0th cluster': [],\n                '1st cluster': [],\n                '2nd
+    cluster': []}\n\n    result = [result_dict_1['0th cluster'].append(short_description[iter_index])
+    if modelkmeans.labels_[iter_index] == 0 else result_dict_1['1st cluster'].append(short_description[iter_index])
+    if modelkmeans.labels_[iter_index] == 1  else result_dict_1['2nd cluster'].append(short_description[iter_index])
+    \ for iter_index in range(len(short_description))]\n\n    average_distance_index
+    = {\n        '0_cluster':[],\n        '1_cluster':[],\n        '2_cluster':[]\n
+    \   }\n\n    count_one = 0\n    for i in range(len(short_description)):\n        closest,
+    _ = pairwise_distances_argmin_min(modelkmeans.cluster_centers_, X[i].reshape(1,-1))\n
+    \       ind = np.where(_ == np.min(_))\n        if ind[0] == 0:      \n            average_distance_index['0_cluster'].append({count_one:np.min(_)})\n
+    \       elif ind[0] == 1:\n            average_distance_index['1_cluster'].append({count_one:np.min(_)})\n
+    \       else:\n            average_distance_index['2_cluster'].append({count_one:np.min(_)})\n
+    \       \n        count_one += 1\n\n\n    average_distance_index['0_cluster'].sort(key=customsort)\n
+    \   average_distance_index['1_cluster'].sort(key=customsort)\n    average_distance_index['2_cluster'].sort(key=customsort)\n\n
+    \   main_index_values = []\n    for itere, value in average_distance_index.items():\n
+    \       main_value = []\n        for jkl in value[:5]:\n            main_value.append(list(jkl.keys())[0])\n
+    \       main_index_values.append(main_value)\n\n    output_dict = {\n        '0_cluster':
+    [],\n        '1_cluster': [],\n        '2_cluster': []\n    }\n\n    count_two
+    = 0\n    for lk in main_index_values:\n        for val in lk:\n            if
+    count_two < 3:\n                output_dict[str(count_two)+'_cluster'].append(short_description[val])\n
+    \       count_two += 1\n\n    dict_2 = average_distance_index\n\n    new_result_list_2
+    = [j for key,valu in dict_2.items() for j in valu]\n\n    over_all_dict = {'total_val':new_result_list_2}\n\n
+    \   over_all_dict['total_val'].sort(key=customsort)\n\n    main_index_values_20
+    = []\n    for itere, value in over_all_dict.items():\n        main_value = []\n
+    \       for jkm in value:\n            main_value.append(list(jkm.keys())[0])\n
+    \       main_index_values_20.append(main_value)\n\n    distance_values = []\n
+    \   for hj in range(len(main_index_values_20[0])):\n        distance_values.append(np.linalg.norm(X_1
+    - X[main_index_values_20[0][hj]]))\n\n    distance_value_backup = sorted(distance_values)\n\n
+    \   new_list = []\n    for list_related in distance_value_backup[:5]:\n        new_list.append(short_description[main_index_values_20[0][distance_values.index(list_related)]])\n
+    \   data_lat = data\n    to_be_added_list = []\n    for fg in range(len(new_list)):\n
+    \       new_count = 0\n        for dict_4 in data_lat['result']:\n            if
+    dict_4[\"short_description\"] == new_list[fg]:\n                if new_count ==
+    0:\n                    temp_index = data_lat['result'].index(dict_4)\n                    to_be_added_list.append(data_lat['result'].pop(temp_index))\n
+    \                   new_count += 1\n                else:\n                    break\n
+    \   data_l = {\"result\":[]}\n    data_l['result'] = to_be_added_list + data_lat['result']\n
+    \   return data_l\n\ndef clusterOutputForAuditTrail(data):\n    \n    post_list_1
+    = []\n    feedid_list_1 = []\n    contents_count = 0\n\n    temp_post_list = []\n\n
+    \   for content in data['contents']:\n        temp_post_list.append(content['feedText'])\n\n
+    \   for content in data['contents']:\n        contents_count += 1\n        feedid_list_1.append(content.get('feedId'))\n
+    \       \n        if content.get('feedFullDesc') == None:\n            post_list_1.append(content.get('feedText'))\n
+    \           \n        else:\n            post_list_1.append(content.get('feedText')+'
+    '+content.get('feedFullDesc'))\n\n    new_sentence_11 = []\n    for ind_sentence
+    in post_list_1:\n        clean = re.compile('<.*?>')\n        text_1 = re.sub(clean,
+    '', ind_sentence)\n        new_sentence_11.append(text_1)\n\n    new_final_sent_ai_11
+    = []\n    for iter_sent in new_sentence_11:\n        sent_4 = re.sub(r'[@#]',
+    '', iter_sent)\n        new_final_sent_ai_11.append(sent_4)\n\n    final_sentence_12
+    = []\n    for sent in new_final_sent_ai_11:\n        final_sentence_12.append(sent.replace('\\n',
+    ' '))\n        \n    final_sentence_11 = []\n    for sent_n in final_sentence_12:\n
+    \       final_sentence_11.append(sent_n.replace('/', '-'))\n\n    bc = BertClient(check_length=False)\n\n
+    \   X_1 = bc.encode(final_sentence_11)\n\n    modelkmeans_2 = KMeans(n_clusters=3,
+    init='k-means++', max_iter=200, n_init=100)\n    modelkmeans_2.fit(X_1)\n\n    result_dict_1
+    = {'0th cluster': [],\n                '1st cluster': [],\n                '2nd
+    cluster': []}\n\n    result = [result_dict_1['0th cluster'].append(final_sentence_11[iter_index])
+    if modelkmeans_2.labels_[iter_index] == 0 else result_dict_1['1st cluster'].append(final_sentence_11[iter_index])
+    if modelkmeans_2.labels_[iter_index] == 1  else result_dict_1['2nd cluster'].append(final_sentence_11[iter_index])
+    \ for iter_index in range(len(final_sentence_11))]\n\n\n    average_distance_index
+    = {\n        '0_cluster':[],\n        '1_cluster':[],\n        '2_cluster':[]\n
+    \   }\n\n    count = 0\n    for i in range(len(final_sentence_11)):\n        closest,
+    _ = pairwise_distances_argmin_min(modelkmeans_2.cluster_centers_, X_1[i].reshape(1,-1))\n
+    \       ind = np.where(_ == np.min(_))\n        if ind[0] == 0:      \n            average_distance_index['0_cluster'].append({count:np.min(_)})\n
+    \       elif ind[0] == 1:\n            average_distance_index['1_cluster'].append({count:np.min(_)})\n
+    \       else:\n            average_distance_index['2_cluster'].append({count:np.min(_)})\n
+    \       \n        count += 1\n\n\n    average_distance_index['0_cluster'].sort(key=customsort)\n
+    \   average_distance_index['1_cluster'].sort(key=customsort)\n    average_distance_index['2_cluster'].sort(key=customsort)\n\n\n
+    \   main_index_values = []\n    for itere, value in average_distance_index.items():\n
+    \       main_value = []\n        for jk in value[:3]:\n            main_value.append(list(jk.keys())[0])\n
+    \       main_index_values.append(main_value)\n\n    output_dict = {\n        '0_cluster':
+    [],\n        '1_cluster': [],\n        '2_cluster': []\n    }\n    final_sentence_11\n\n
+    \   third_count = 0\n    for lk in main_index_values:\n        for val in lk:\n
+    \           if third_count < 3:\n                output_dict[str(third_count)+'_cluster'].append(final_sentence_11[val])\n
+    \       third_count += 1\n            \n\n    dict_2 = average_distance_index\n\n
+    \   new_result_list_2 = [j for key,valu in dict_2.items() for j in valu]\n\n    over_all_dict
+    = {'total_val':new_result_list_2}\n\n    over_all_dict['total_val'].sort(key=customsort)\n\n\n
+    \   main_index_values_20 = []\n    for itere, value in over_all_dict.items():\n
+    \       main_value = []\n        for jk in value:\n            main_value.append(list(jk.keys())[0])\n
+    \       main_index_values_20.append(main_value)\n\n\n    data_3 = data\n\n    to_be_added_list
+    = []\n\n    for fg in range(len(main_index_values_20[0])):\n        new_count
+    = 0\n        for dict_4 in data_3['contents']:\n            if dict_4[\"feedText\"]
+    == temp_post_list[main_index_values_20[0][fg]]:\n                if new_count
+    == 0:\n                    temp_index = data_3['contents'].index(dict_4)\n                    to_be_added_list.append(data_3['contents'].pop(temp_index))\n
+    \                   new_count += 1\n                else:\n                    break\n\n\n
+    \   data_3['contents'] = to_be_added_list\n\n    \n    return data_3\n\n\nparser
+    = argparse.ArgumentParser(description='auth parameters')\n\nparser.add_argument('-i',
+    '--instanceID', help= 'Instance ID in string to construct URL')\nparser.add_argument('-a',
+    '--authToken', help= 'AuthToken in string to construct URL')\nparser.add_argument('-q','--querystatement',
+    help='User query statement as string')\nparser.add_argument('-m', '--service_now_audit_trail',
+    help='ServiceNow  Audit trail or service Now')\nparser.add_argument('-rs', '--responsesize',
+    help='ServiceNow  Audit trail or service Now')\nparser.add_argument('-p', '--paginationcounter',
+    help='ServiceNow  Audit trail or service Now')\nparser.add_argument('-si', '--similaritems',
+    help='argument for recommendation finding similar items')\nargs = parser.parse_args()\n\nInstanceId
+    = args.instanceID\nAuthToken = args.authToken\nQueryStatement = args.querystatement\nSelectOption
+    = args.service_now_audit_trail\n\n# rsize = int(args.responsesize)\n# pcount =
+    int(args.paginationcounter)\nitem_name = args.similaritems\n\n\n\nif InstanceId
+    == None and AuthToken == None and QueryStatement != None and item_name == None:\n\n
+    \   payload = {\n        'username': 'your-email-id.com',\n        'password':
+    'your-password',\n        'grant_type':'password',\n        'client_id':'angular-cors',\n
+    \       'code': 'uss.VINqs9gefeizkBlxWFXnOMrRkq49fK3naQOgkljksw4.8b3f5d11-3cf7-4bcf-bd8f-c3aa928dc5a4.c21b6b11-dc3e-4381-9ee1-b4fb5b3c910e'\n
+    \           }\n\n    headers = {'Content-Type':\"application/x-www-form-urlencoded\"}\n
+    \   url = 'https://kc.giggso.com/auth/realms/giggso/protocol/openid-connect/token'\n\n
+    \   first_response = requests.post(url, data=payload, headers=headers)\n    access_token
+    = json.loads(first_response.text)['access_token']\n\n\n    new_url = 'https://kc.giggso.com:8448/giggso_kc/rest/elasticsearch/topsearch'\n
+    \   data =  {\n        \"currUserId\":292255,\n        \"currUserEmailId\":\"your-email-id.com\",\n
+    \       \"searchString\":QueryStatement,        \n        \"size\": 50,\n        \"minimumMatch\":
+    \"65\"\n        }\n\n    new_headers = {'Authorization' : 'Bearer ' +  access_token,
+    'Content-Type': 'application/json'}\n\n    second_response = requests.post(new_url,
+    data=json.dumps(data), headers=new_headers)\n\n    data_1 = second_response.json()\n\n
+    \   if len(data_1['contents']) < 3:\n        print(json.dumps(data_1))\n\n    else:\n
+    \       output = clusterOutputForAuditTrail(data_1)\n        print(json.dumps(output))\n
+    \                              \nelif InstanceId != None and AuthToken != None
+    and QueryStatement != None and item_name == None :\n    if SelectOption == \"snow_audit_trail\":\n
+    \       URL = \"http://php:80/servicenow/index.php?task=fetch&table=kb_knowledge&instance=\"+str(InstanceId)+\"&auth=\"+str(AuthToken)+\"&searchString=\"+str(QueryStatement)+\"&maxResult=50\"\n
+    \       resp = requests.get(url = URL, headers = {'Accept':'application/json'})\n
+    \       data_1 = resp.json()\n\n        if len(data_1['result']) < 3:\n            print(json.dumps(data_1))\n\n
+    \       else:\n            output = clusterFinalOutput1(data_1, [QueryStatement])\n
+    \           print(json.dumps(output))\n\n    # else:\n    #     # URL = \"http://php:80/servicenow/index.php?task=fetch&table=kb_knowledge&instance=\"+str(InstanceId)+\"&auth=\"+str(AuthToken)+\"&searchString=\"+str(QueryStatement)+\"&maxResult=50\"\n
+    \   #     URL = \"http://php:80/servicenow/index.php?task=fetch&table=kb_knowledge&instance=\"+str(InstanceId)+\"&auth=\"+str(AuthToken)+\"&searchString=\"+str(QueryStatement)+\"&maxResult=220\"\n
+    \   #     resp = requests.get(url = URL, headers = {'Accept':'application/json'})\n
+    \   #     data_1 = resp.json()\n    #     # print('Downloaded data')\n    #     #
+    print(json.dumps(data_1))\n    #     if len(data_1['result']) < 3:\n    #         print(json.dumps(data_1))\n\n
+    \   #     else:\n    #         output = clusterFinalOutput(data_1, [QueryStatement])\n
+    \   #         if pcount == 1:  \n    #             output['result']=output['result'][:rsize]
+    if len(output['result'])>rsize and type(output['result'])==list else output['result']\n
+    \   #             print(json.dumps(output))\n    #             # print('pagination
+    1')\n\n    #         elif pcount == 2:\n    #             output['result']=output['result'][rsize:rsize*2]
+    if len(output['result'])>rsize*2 and type(output['result'])==list else output['result']\n
+    \   #             print(json.dumps(output))\n    #             # print('pagination
+    2')                \n\n    #         elif pcount == 3:\n    #             output['result']=output['result'][rsize*2:rsize*3]
+    if len(output['result'])>rsize*3 and type(output['result'])==list else output['result']\n
+    \   #             print(json.dumps(output))\n    #             # print('pagnination
+    3')\n\n    #         elif pcount == 4:\n    #             output['result']=output['result'][rsize*3:rsize*4]
+    if len(output['result'])>rsize*4 and type(output['result'])==list else output['result']\n
+    \   #             print(json.dumps(output)) \n    #             # print('pagination
+    4')                                           \n\n    #         elif pcount ==
+    5:\n    #             output['result']=output['result'][rsize*4:rsize*5] if len(output['result'])>rsize*5
+    and type(output['result'])==list else output['result']\n    #             print(json.dumps(output))\n
+    \   #             # print('pagination 5')\n\n    #         else:\n    #             output['result']
+    = \"no more datas were found\"\n    #             print(json.dumps(output))\n\n
+    \   else:\n        try:\n            #print(QueryStatement)\n            QueryStatement
+    = re.sub(\"['\\\"]\", '', QueryStatement)\n            QueryStatement = re.sub(r\"[^a-zA-Z0-9]+\",
+    ' ', QueryStatement)\n            URL = \"http://php:80/servicenow/index.php?task=fetch&table=kb_knowledge&instance=\"+str(InstanceId)+\"&auth=\"+str(AuthToken)+\"&searchString=\"+str(QueryStatement)+\"&maxResult=1000\"\n
+    \           resp = requests.get(url = URL, headers = {'Accept':'application/json'})\n
+    \           data_1 = resp.json()\n\n            sent_list = []\n            for
+    item4 in data_1['result']:\n                sent_list.append(item4['short_description'])\n\n
+    \           c = []\n            new_data = []\n            count_index = 0\n            for
+    a_11 in sent_list:\n                if a_11 not in c:\n                    c.append(a_11)\n
+    \                   new_data.append(data_1['result'][count_index])\n                else:\n
+    \                   pass\n                count_index += 1\n\n            data_1['result']
+    = new_data\n            \n            if len(data_1['result']) < 3:\n                print(json.dumps(data_1))\n\n
+    \           else:\n                output = clusterFinalOutput(data_1, [QueryStatement])\n
+    \               output['result']=output['result'][:5] if len(output['result'])>5
+    and type(output['result'])==list else output['result']\n                print(json.dumps(output))\n\n
+    \       except:\n            print('None value is passed in search Query')\n\n\n\nelif
+    InstanceId == None or AuthToken == None and QueryStatement == None and item_name
+    != None:              \n    show_recom = callsimilaritems(item_name)\n    print(json.dumps(show_recom))\n\n\n
+    \           \n\n\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: final-cluster

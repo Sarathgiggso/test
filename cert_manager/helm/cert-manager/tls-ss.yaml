@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: test-selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+spec:
+  dnsNames:
+    - ggdev.giggso.com
+    - ggdevkc.giggso.com
+  secretName: test-cert-tls
+  issuerRef:
+    name: test-selfsigned
+

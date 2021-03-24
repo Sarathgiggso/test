@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: workflow
+  name: workflow
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: workflow
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: workflow
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/workflow-uat
+        #giggsodocker/ask-giggso
+        name: workflow
+#        resources:
+#          requests:
+#            cpu: "200m"
+#            memory: "1Gi"
+#          limits:
+#            cpu: "450m"
+#            memory: "6Gi"
+        ports:
+        - containerPort: 8202
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

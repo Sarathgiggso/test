@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: kibana
+  name: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: kibana
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: kibana
+    spec:
+      containers:
+      - env:
+        - name: elasticsearch.password
+          value: 'changeme'
+        - name: elasticsearch.url
+          value: 'http://elasticsearch:9200'
+        - name: elasticsearch.username
+          value: 'elastic'
+        - name: xpack.monitoring.ui.container.elasticsearch.enabled
+          value: "true"
+        image: kibana:7.8.0
+        imagePullPolicy: "IfNotPresent"
+        name: kibana
+        ports:
+        - containerPort: 5601
+        resources: {}
+        volumeMounts:
+        - mountPath: /usr/share/kibana/config/
+          name: kibana-config
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: kibana-config
+        configMap:
+          name: kibana-config
+

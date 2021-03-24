@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-aiml-sme
+  name: giggso-aiml-sme
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-aiml-sme
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-aiml-sme
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - env:
+        - name: ELASTICSEARCH_URL
+          value: 'http://10.4.0.4:7201'
+        - name: NEO4J_URL
+          value: 'bolt://10.4.0.4:7687'
+        image: giggsodocker/giggso-aiml-sme-uat
+        #giggsodocker/giggso-aiml-sme
+        name: giggso-aiml-sme
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "6Gi"
+        ports:
+        - containerPort: 5000
+          #- containerPort: 2222
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

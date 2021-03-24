@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: loganomaly-jobapi
+  name: loganomaly-jobapi
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: loganomaly-jobapi
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: loganomaly-jobapi
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+       - env:
+         - name: JOB_INDEX
+           value: ggjobsannomaly
+         - name: ELASTICSEARCH_URL
+           value: http://10.4.0.4:7201
+         - name: WILDFLY_URL
+           value: "http://web:8080"
+         - name: PULSAR_URL
+           value: pulsar://10.4.0.4:6650
+         - name: AUTH_TOKEN
+           value: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJpaERVVEltXzVheXVWa2NteWZaOW5pckhQYVo1STZ3bXBoeHBtV1VSemc0In0.eyJleHAiOjE2MzY3MDE1NjQsImlhdCI6MTYwNTE2ODI3MiwiYXV0aF90aW1lIjoxNjA1MTY1NTY0LCJqdGkiOiI3ZWRhZTg1Yy1hM2VkLTRjMjctYTRmNC1lMGU3ZDAwMTZjODUiLCJpc3MiOiJodHRwczovL2dnZGV2a2MuZ2lnZ3NvLmNvbS9hdXRoL3JlYWxtcy9naWdnc28iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYTNkNzJiZGQtNGVhZS00MGE1LTkwZmQtYmFhNmQ3OTA0YWM4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYW5ndWxhci1jb3JzIiwibm9uY2UiOiJkMmFhMDgyOC00N2Y0LTQ0NjEtODJjZC1iYjUzNjlhO…Fpc2FsIGtoYW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrZmFpc2FsQGdpZ2dzby5jb20iLCJnaXZlbl9uYW1lIjoiZmFpc2FsIiwiZmFtaWx5X25hbWUiOiJraGFuIiwiZW1haWwiOiJrZmFpc2FsQGdpZ2dzby5jb20ifQ.QnWucFr5sX8mD4hsqGX0kupvoKtOvvZOCTQ0aI89dKSRZmfa5mQ93TML2I17TUleAVrgeH7YMXOOoIxIHcKdUBd4WUE54DI5Y-kW_OVKjY6MpVTKYyQcT4KtWBeS0xERpgCPAR17qcYSSIzDWm0C746gKE056rY6Aqf3hd64apZTfmxYUhj7vnKw2UclZ2rTNHk1FKlmaN8fRCDF9_qeeoLmltMqlGaipgNXk0YTQn5p0WRMO2VM1y2Otn2jwk_CPsFzCILcLNYSUVbuqpWGtFGt_zCl8d0siBKr7k9IBip5yhSvOAEYnJIkSiohJ1yK6sJr25yLJ1gv9oxfTSx-_A" 
+         image: giggsodocker/loganomaly_jobapi_uat
+        #image: giggsodocker/capacity-k8
+         name: loganomaly-jobapi
+         resources:
+           requests:
+             cpu: "300m"
+             memory: "400Mi"
+           limits:
+             cpu: "350m"
+             memory: "500Mi"
+         ports:
+          - containerPort: 8080
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+      serviceAccountName: ""
+
+

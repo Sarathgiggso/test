@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobchecker
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: jobchecker
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: jobchecker
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - env:
+         - name: JOB_INTERVAL
+           value: "1"
+         - name: INDEX
+           value: ggjobs
+         - name: ELASTICSEARCH_URL
+           value: http://10.4.0.4:7201
+         - name: JOB_CREATION_API
+           value: http://jobapi:8082
+         - name: ES_USER
+           value: elastic
+         - name: ES_PASS
+           value: changeme
+        #image: datatrine/logstash_dts:5.5.2
+        image: giggsodocker/capacity-jobchecker-uat
+        imagePullPolicy: "Always"
+        name: jobchecker
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "400Mi"
+          limits:
+            cpu: "350m"
+            memory: "500Mi"
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+      serviceAccountName: ""
+      

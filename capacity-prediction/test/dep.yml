@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capacity-dep
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: capacity
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: capacity
+    spec:
+      containers:
+      - env:
+         - name: jobId
+           value: "13423"
+         - name: JOB_INTERVAL
+           value: "1"
+         - name: INDEX
+           value: "ggmetricbeat"
+         - name: AGGR_INTERVAL
+           value: "hour"
+         - name: AGGR_FIELDS
+           value: "system.core.user.pct"
+         - name: GroupQuery
+           value: None
+         - name: ELASTICSEARCH_URL
+           value: 13.92.225.227
+         - name: WILDFLY_ENDPOINT
+           value: 67.54.32.4
+         - name: auth
+           value: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhTTRMdnFiN1RKQ2hrQ2ZtNDJVQ0YwcFhMcVpvNnVhTDJleHB4aWV6UUJzIn0.eyJleHAiOjE2MzQzOTE5MDAsImlhdCI6MTYwMjg1NjgzMSwiYXV0aF90aW1lIjoxNjAyODU1OTAxLCJqdGkiOiIzNTFmNGNjZi00OTFkLTQzMDYtODMzMy0wYmJkZTBjNjI4YTkiLCJpc3MiOiJodHRwczovL2dnZGV2a2MuZ2lnZ3NvLmNvbS9hdXRoL3JlYWxtcy9naWdnc28iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZTlhY2M3MDgtOWE3OC00MjZiLTg1NWQtMTZlNmQ5YTYwNzgwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYW5ndWxhci1jb3JzIiwibm9uY2UiOiJlYWRkNzQxNS0xYTE5LTQ1NWYtOWRmZC05OWI0NGY2Z…VkX3VzZXJuYW1lIjoiZmFpc2Fsa2hhbi53aGlzcGVyQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJmYWlzYWwiLCJmYW1pbHlfbmFtZSI6ImtoYW4iLCJlbWFpbCI6ImZhaXNhbGtoYW4ud2hpc3BlckBnbWFpbC5jb20ifQ.jQKl-b4dWX7aKVNADZhalvwDDJOXDjwX3ldhUe1lGFL2cl_zBj_No-5Ad-ylOer6JCWC_VIc2JXW20XJgL70UPg6ecQXKsqMq097SMKhWrOoRfAuA_uxUON6p_Xou4FT22UsEwE2I7De2cgBfAn-sM0KrZ8txJI457hnVAqpeP7eD_juX9YUcibubc0Fum5nEfSkfvADHUfdDJIk2hueIiDIDVsKevPAp-fSUFlajaf1GKdSA2kSlM7lQcGGaHMeym6KGnmRwilxB7ArB0ii8pNAa-Q14hCunfoRXJRT5YE6Wrahg9jfT295Yi8xOKBwPaEy7gpSsDwN1wRJKQCFhQ"
+        #image: datatrine/logstash_dts:5.5.2
+        image:  p156058/capacityjob
+        imagePullPolicy: "Always"
+        name: logstash
+        ports:
+        - containerPort: 5000
+        - containerPort: 5000
+          protocol: UDP
+        - containerPort: 5044
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-ruleengine
+  name: giggso-ruleengine
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-ruleengine
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-ruleengine
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-ruleengine-uat
+        #giggsodocker/giggso-ruleengine
+        name: giggso-ruleengine
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "4Gi"
+        volumeMounts:
+        - mountPath: /rulemicroservice.properties
+          subPath: rulemicroservice.properties
+          name: ruleengine-config
+          readOnly: true
+        ports:
+        - containerPort: 8080
+        #- containerPort: 2222
+      restartPolicy: Always
+      volumes:
+      - name: ruleengine-config
+        configMap:
+          name: ruleengine-config
+
+

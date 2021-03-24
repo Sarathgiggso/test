@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: capacity-report
+  name: capacity-report
+spec:
+  type: ClusterIP
+  ports:
+  - name: "8080"
+    port: 8082
+    targetPort: 8080
+  selector:
+    service: capacity-report
+

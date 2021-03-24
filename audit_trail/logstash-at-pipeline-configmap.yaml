@@ -1,0 +1,504 @@
+apiVersion: v1
+data:
+  logstash.conf: |+
+    input {
+
+        #Last data insert into db update the ES
+        jdbc {
+
+             # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/nestedComments-last-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            use_column_value => true
+            tracking_column => "ncomment_id"
+            tracking_column_type => "numeric"
+            type => ["NestedComment"]
+            record_last_run => true
+        }
+
+        jdbc {
+
+             # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/feeds-last-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            use_column_value => true
+            tracking_column => "gc_feed_id"
+            tracking_column_type => "numeric"
+            type => ["Feed"]
+            record_last_run => true
+        }
+
+        jdbc {
+
+             # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/comments-last-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            use_column_value => true
+            tracking_column => "comment_id"
+            tracking_column_type => "numeric"
+            type => ["Comment"]
+            record_last_run => true
+        }
+
+        jdbc {
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/reminder-last-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            use_column_value => true
+            tracking_column => "gcfeed_reminder_id"
+            tracking_column_type => "numeric"
+            last_run_metadata_path => "/usr/share/logstash/sql-conf/reminder/.logstash_jdbc_last_run"
+            type => ["Reminder"]
+            record_last_run => true
+        }
+
+        jdbc {
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/externalAppShare-last-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            use_column_value => true
+            tracking_column => "external_share_id"
+            tracking_column_type => "numeric"
+            type => ["ExternalAppShare"]
+            record_last_run => true
+        }
+
+        #Last data update into db update the ES
+        jdbc {
+
+             # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/nestedComments-last-update-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            type => ["updatenestedcommenttable"]
+            use_column_value => true
+            tracking_column => "modify_datetime"
+
+        }
+
+        jdbc {
+
+             # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/feeds-last-update-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            type => ["updatefeedtable"]
+            use_column_value => true
+            tracking_column => "update_datetime"
+
+        }
+
+        jdbc {
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_library => "/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client-2.1.1.jar"
+
+            # Jdbc connection string to our database
+            jdbc_connection_string => "jdbc:mariadb://10.1.0.7:3306/giggso"
+
+            # The userName and password string to connect our database
+            jdbc_user => "gguser"
+            jdbc_password_filepath => "/usr/share/logstash/sql-conf/db-properties/db-userPassword"
+
+            # The path to our downloaded jdbc driver
+            jdbc_driver_class => "org.mariadb.jdbc.Driver"
+
+            # The path to execute in sql query statement
+            statement_filepath   => "/usr/share/logstash/sql-conf/sql-query/comments-last-update-data-logstash.sql"
+            schedule => "*/1 * * * *"
+            type => ["updatecommenttable"]
+            use_column_value => true
+            tracking_column => "modify_datetime"
+
+        }
+
+    }
+
+
+    filter {
+
+        if [type] == "NestedComment" {
+
+            mutate { add_field => { "postedDate" => "%{entry_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Create"} }
+            mutate { add_field => { "key" => "NC"} }
+            mutate { add_field => { "generalId" => "%{ncomment_id}"} }
+            mutate { add_field => { "feedId" => "%{gc_feed_id}"} }
+            mutate { add_field => { "description" => "%{comment}"} }
+            mutate { add_field => { "commentId" => "%{comment_id}"} }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+              "resource_id","comment","gc_feed_id","entry_datetime","ncomment_id","comment_id"] }
+       }
+
+       if [type] == "updatenestedcommenttable" {
+
+             mutate { add_field => { "postedDate" => "%{modify_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Update"} }
+            mutate { add_field => { "key" => "NC"} }
+            mutate { add_field => { "generalId" => "%{ncomment_id}"} }
+            mutate { add_field => { "feedId" => "%{gc_feed_id}"} }
+            mutate { add_field => { "description" => "%{comment}"} }
+            mutate { add_field => { "commentId" => "%{comment_id}"} }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+              "resource_id","comment","gc_feed_id","entry_datetime","ncomment_id","modify_datetime","type","comment_id"] }
+
+              mutate { add_field => { "type" => "NestedComment"} }
+        }
+
+      if [type] == "Comment" {
+             mutate { add_field => { "postedDate" => "%{entry_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Create"} }
+            mutate { add_field => { "key" => "C"} }
+            mutate { add_field => { "generalId" => "%{comment_id}"} }
+            mutate { add_field => { "feedId" => "%{gc_feed_id}"} }
+            mutate { add_field => { "description" => "%{comment}"} }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+            if [external_app_id] {
+              mutate { add_field => { "externalAppName" => "%{external_type}"} }
+            }
+
+            # if [expiray_date] {
+            #  mutate { add_field => { "endDate" => "%{expiray_date}"} }
+            # }
+
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+              "resource_id","comment","gc_feed_id","entry_datetime","comment_id","external_type","external_app_id","expiray_date"] }
+      }
+
+       if [type] == "updatecommenttable" {
+
+            mutate { add_field => { "postedDate" => "%{modify_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Update"} }
+            mutate { add_field => { "key" => "C"} }
+            mutate { add_field => { "generalId" => "%{comment_id}"} }
+            mutate { add_field => { "feedId" => "%{gc_feed_id}"} }
+            mutate { add_field => { "description" => "%{comment}"} }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+
+            if [external_app_id] {
+                mutate { add_field => { "externalAppName" => "%{external_type}"} }
+            }
+
+            # if [expiray_date] {
+            #  mutate { add_field => { "endDate" => "%{expiray_date}"} }
+            # }
+
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+              "resource_id","comment","gc_feed_id","entry_datetime","comment_id","modify_datetime","type","external_app_id","external_type","expiray_date"] }
+
+              mutate { add_field => { "type" => "Comment"} }
+
+      }
+
+      if [type] == "Feed" {
+
+           mutate { add_field => { "postedDate" => "%{entry_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Create"} }
+            mutate { add_field => { "key" => "F"} }
+            mutate { add_field => { "generalId" => "%{gc_feed_id}"} }
+            mutate { add_field => { "feedId" => "%{gc_feed_id}"} }
+            if [job_short_desc] {
+               mutate { add_field => { "description" => "%{job_short_desc}"} }
+            }
+            if [job_desc] {
+              mutate { add_field => { "longDescription" => "%{job_desc}"} }
+            }
+            if [external_id] {
+              mutate { add_field => { "externalAppId" => "%{external_id}"} }
+            }
+            if [external_type] {
+              mutate { add_field => { "externalAppName" => "%{external_type}"} }
+            }
+            if [external_app_short_link] {
+              mutate { add_field => { "externalAppShortLink" => "%{external_app_short_link}"} }
+            }
+            # if [expiray_date] {
+            #  mutate { add_field => { "endDate" => "%{expiray_date}"} }
+            # }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+              "resource_id","job_desc","job_short_desc","gc_feed_id","entry_datetime","external_id","external_type","external_app_short_link","expiray_date"] }
+      }
+
+      if [type] == "updatefeedtable" {
+
+           mutate { add_field => { "postedDate" => "%{update_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Update"} }
+            mutate { add_field => { "key" => "F"} }
+            mutate { add_field => { "generalId" => "%{gc_feed_id}"} }
+            mutate { add_field => { "feedId" => "%{gc_feed_id}"} }
+            if [job_short_desc] {
+               mutate { add_field => { "description" => "%{job_short_desc}"} }
+            }
+            if [job_desc] {
+              mutate { add_field => { "longDescription" => "%{job_desc}"} }
+            }
+            if [external_id] {
+              mutate { add_field => { "externalAppId" => "%{external_id}"} }
+            }
+            if [external_type] {
+              mutate { add_field => { "externalAppName" => "%{external_type}"} }
+            }
+            if [external_app_short_link] {
+              mutate { add_field => { "externalAppShortLink" => "%{external_app_short_link}"} }
+            }
+            # if [expiray_date] {
+            #  mutate { add_field => { "endDate" => "%{expiray_date}"} }
+            # }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+              "resource_id","job_desc","job_short_desc","gc_feed_id","update_datetime","entry_datetime","type","external_id","external_app_short_link","external_type","expiray_date"] }
+
+              mutate { add_field => { "type" => "Feed"} }
+      }
+
+      if [type] == "Reminder" {
+        mutate { add_field => { "postedDate" => "%{created_datetime}" } }
+        mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+        mutate { add_field => { "action" => "Create"} }
+        mutate { add_field => { "key" => "RE"} }
+        mutate { add_field => { "generalId" => "%{gcfeed_reminder_id}"} }
+        mutate { add_field => { "feedId" => "%{feed_id}"} }
+        mutate { add_field => { "dispName" => "%{disp_name}"} }
+        mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+        mutate { add_field => { "groupId" => "%{group_id}"} }
+        if [profile_image] {
+          mutate { add_field => { "profileImage" => "%{profile_image}"} }
+        }
+        if [sub_group_id] {
+          mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+        }
+        if [reminder_status] {
+          mutate { add_field => { "reminderStatus" => "%{reminder_status}"} }
+        }
+        if [reminder_priority] {
+          mutate { add_field => { "reminderPriority" => "%{reminder_priority}"} }
+        }
+        if [reminder_set_by] {
+          mutate { add_field => { "reminderSetBy" => "%{reminder_set_by}"} }
+        }
+
+        if [reminder_flag] {
+          mutate { add_field => { "reminderFlag" => "%{reminder_flag}"} }
+        }
+
+        if [reminder_flag] == 1 {
+          mutate { remove_field => ["type"] }
+          mutate { add_field => { "type" => "Approval"} }
+        }
+            mutate { rename => {"resourceid" => "resourceId"}}
+        if [change_log] {
+          mutate { add_field => { "reminderLog" => "%{change_log}"} }
+        }
+
+        mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+         "reminder_status","feed_id","created_datetime","reminder_priority","reminder_set_by",
+          "reminder_flag","change_log","gcfeed_reminder_id"] }
+       }
+
+     if [type] == "ExternalAppShare" {
+           mutate { add_field => { "postedDate" => "%{created_datetime}" } }
+            mutate { gsub => [ "postedDate", ".[0-9]{3}Z$", "-0400" ] }
+            mutate { add_field => { "action" => "Create"} }
+            mutate { add_field => { "key" => "EAS"} }
+            if [feed_id] {
+                mutate { add_field => { "feedId" => "%{feed_id}"} }
+            }
+            mutate { add_field => { "externalAppName" => "%{app_name}"} }
+            mutate { add_field => { "redirectUrl" => "%{redirect_url}"} }
+            mutate { add_field => { "resourceId" => "%{resource_id}"} }
+            mutate { add_field => { "dispName" => "%{disp_name}"} }
+            mutate { add_field => { "ownHandler" => "%{own_handler}"} }
+            mutate { add_field => { "groupId" => "%{group_id}"} }
+             if [general_id] {
+                mutate { add_field => { "generalId" => "%{general_id}"} }
+            }else {
+                mutate { add_field => { "generalId" => "%{external_share_id}"} }
+            }
+            if [share_type] {
+              mutate { add_field => { "shareType" => "%{share_type}"} }
+            }
+            if [profile_image] {
+              mutate { add_field => { "profileImage" => "%{profile_image}"} }
+            }
+            if [sub_group_id] {
+              mutate { add_field => { "subGroupId" => "%{sub_group_id}"} }
+            }
+
+            # if [expiray_date] {
+            #  mutate { add_field => { "endDate" => "%{expiray_date}"} }
+            # }
+
+            mutate { remove_field => ["sub_group_id","group_id","profile_image","own_handler","disp_name",
+           "resource_id","redirect_url","feed_id","created_datetime","app_name","external_share_id","expiray_date","share_type","general_id"] }
+        }
+    }
+
+    output {
+        elasticsearch {
+            hosts => "elasticsearch.default:9200"
+            index => "ggaudits"
+            document_id => "%{generalId}%{postedDate}%{key}"
+                    user => "elastic"
+            password => "changeme"
+        }
+    }
+
+kind: ConfigMap
+metadata:
+  name: logstash-at-pipeline
+  namespace: default

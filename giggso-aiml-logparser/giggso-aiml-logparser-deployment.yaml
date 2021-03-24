@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-aiml-logparser
+  name: giggso-aiml-logparser
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-aiml-logparser
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-aiml-logparser
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - env:
+        - name: ELASTICSEARCH_URL
+          value: 'http://elasticsearch:9200'
+          #value: 'http://10.4.0.4:7201'
+        image: giggsodocker/giggso-aiml-logparser-uat
+        #giggsodocker/giggso-aiml-logparser
+        name: giggso-aiml-logparser
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "6Gi"
+        ports:
+        - containerPort: 5000
+          #- containerPort: 2222
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

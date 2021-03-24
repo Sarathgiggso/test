@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: gg-recommendations
+  name: gg-recommendations
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: gg-recommendations
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: gg-recommendations
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - env:
+        - name: ELASTICSEARCH_URL
+          #value: 'http://elasticsearch:9200'
+          value: 'http://10.4.0.4:7201'
+        - name: LOG_PARSER
+          value: 'http://giggso-aiml-logparser:8201/parseLog'
+        - name: BERT_ENDPOINT
+          value: 'http://bert-encoder:8190/encode'
+        - name: BASEQUERY_API_URL
+          value: 'https://dev.giggso.com:8443/giggso_kc/rest/groupdashboard/buildBaseGroupQuery/'
+        image: giggsodocker/giggso-aiml-recommended-uat
+        #giggsodocker/gg-recommendations
+        name: gg-recommendations
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "2Gi"
+        ports:
+        - containerPort: 8202
+          #- containerPort: 2222
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

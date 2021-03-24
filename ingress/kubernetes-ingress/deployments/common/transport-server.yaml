@@ -1,0 +1,73 @@
+#apiVersion: k8s.nginx.org/v1alpha1
+#kind: TransportServer
+#metadata:
+#  name: ls-tcp-5000
+#  namespace: nginx-ingress
+#spec:
+#  listener:
+#    name: ls-tcp-5000
+#    protocol: TCP
+#  upstreams:
+#  - name: app-tcp-5000
+#    service: logstash
+#    port: 5000
+#  action:
+#    pass: app-tcp-5000
+
+---
+
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: logstash-udp
+  namespace: nginx-ingress
+spec:
+  listener:
+    name: logstash-udp
+    protocol: UDP
+  upstreams:
+  - name: app-udp
+    service: logstash
+    port: 5000
+  upstreamParameters:
+    udpRequests: 1
+    udpResponses: 1
+  action:
+    pass: app-udp
+
+---
+
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: ls-tcp-5044
+  namespace: nginx-ingress
+spec:
+  listener:
+    name: ls-tcp-5044
+    protocol: TCP
+  upstreams:
+  - name: app-tcp-5044
+    service: logstash
+    port: 5044
+  action:
+    pass: app-tcp-5044
+
+---
+
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: neo-7687
+  namespace: nginx-ingress
+spec:
+  listener:
+    name: neo-7687
+    protocol: TCP
+  upstreams:
+  - name: app-neo-7687
+    service: neo4j-neo4j-community
+    port: 7687
+  action:
+    pass: app-neo-7687
+
