@@ -10,7 +10,7 @@
 kubectl apply -f ./docker-secret.yaml
 
 # to create storage class
-kubectl apply -f ./storage_class/ 
+kubectl apply -f ./storage_class/storage_class.yml 
 
 # to create NFS Provisioner for wildfly
 helm upgrade -i nfs-giggso nfs-server -f ./nfs-server/values.yaml
@@ -36,6 +36,9 @@ helm upgrade -i es-client elasticsearch -f ./elasticsearch/client.yml
 #helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml
 helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml --namespace nginx-ingress
 
+# To install monitoring service
+helm install --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml
+
 sleep 5m
 # to deploy php service
 kubectl apply -f ./php/
@@ -58,6 +61,28 @@ kubectl apply -f ./angular/
 # to deploy Audit Trail service
 kubectl apply -f ./audit_trail/
 
+#to deploy kafka
+kubectl apply -f ./kafka/
+
+#to deploy trino
+kubectl apply -f ./trino/
+
+#to deploy AIML services
+kubectl apply -f ./bert-encoder/
+kubectl apply -f ./capacity-prediction/roles-rbac/
+kubectl apply -f ./capacity-prediction/jobchecker/
+kubectl apply -f ./capacity-prediction/jobcreationapi/
+kubectl apply -f ./capacity-prediction/capacity-report/
+kubectl apply -f ./correlated-events/
+kubectl apply -f ./gg-recommendations/
+kubectl apply -f ./giggso-aiml-logparser/
+kubectl apply -f ./giggso-aiml-rca/
+kubectl apply -f ./giggso-aiml-sme/
+kubectl apply -f ./log-ingestion/
+kubectl apply -f ./loganomaly/roles-rbac/
+kubectl apply -f ./loganomaly/jobchecker/
+kubectl apply -f ./loganomaly/jobcreationapi/
+
 #To install certificate manager
 (cd ./cert_manager; ./cert-manager.sh)
 
@@ -66,17 +91,11 @@ kubectl apply -f ./audit_trail/
 ./ingress-daemonset.sh)
 
 # to deploy logstash service
-kubectl create configmap logstash-pipeline --from-file=./logstash/logstash.conf --namespace=nginx-ingress
-kubectl apply -f ./logstash/
+#kubectl create configmap logstash-pipeline --from-file=./logstash/logstash.conf --namespace=nginx-ingress
+#kubectl apply -f ./logstash/
 
 # to deploy ruleengine service
 kubectl apply -f ./ruleengine/
-
-# to deploy log-ingestion service
-kubectl apply -f ./log-ingestion/
-
-# to deploy loganomaly service
-kubectl apply -f ./loganomaly/
 
 # to deploy ask-giggso service
 kubectl apply -f ./ask-giggso/

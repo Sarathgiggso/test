@@ -1,0 +1,78 @@
+---
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: trino-configs
+data:
+  jvm.config: |-
+    -server
+    -Xmx16G
+    -XX:-UseBiasedLocking
+    -XX:+UseG1GC
+    -XX:G1HeapRegionSize=32M
+    -XX:+ExplicitGCInvokesConcurrent
+    -XX:+ExitOnOutOfMemoryError
+    -XX:+UseGCOverheadLimit
+    -XX:+HeapDumpOnOutOfMemoryError
+    -XX:ReservedCodeCacheSize=512M
+    -Djdk.attach.allowAttachSelf=true
+    -Djdk.nio.maxCachedBufferSize=2000000
+  config.properties.coordinator: |-
+    coordinator=true
+    node-scheduler.include-coordinator=false
+    http-server.http.port=8080
+    query.max-memory=200GB
+    query.max-memory-per-node=8GB
+    query.max-total-memory-per-node=10GB
+    query.max-stage-count=200
+    task.writer-count=4
+    discovery-server.enabled=true
+    discovery.uri=http://trino:8080
+  config.properties.worker: |-
+    coordinator=false
+    http-server.http.port=8080
+    query.max-memory=200GB
+    query.max-memory-per-node=10GB
+    query.max-total-memory-per-node=10GB
+    query.max-stage-count=200
+    task.writer-count=4
+    discovery.uri=http://trino:8080
+  node.properties: |-
+    node.environment=test
+    spiller-spill-path=/tmp
+    max-spill-per-node=4TB
+    query-max-spill-per-node=1TB
+  hive.properties: |-
+    connector.name=hive-hadoop2
+    hive.metastore.uri=thrift://hadoop-master:9083
+    hive.allow-drop-table=true
+    hive.max-partitions-per-scan=1000000
+    #hive.s3.endpoint=https://gigsstackoverflowdata.s3.ap-south-1.amazonaws.com
+    #hive.s3.path-style-access=true
+    #hive.s3.ssl.enabled=false
+    #hive.s3.max-connections=100
+    #hive.s3.aws-access-key=
+    #hive.s3.aws-secret-key=
+    hive.metastore-timeout=60s
+    #hive.s3select-pushdown.enabled=true
+    hive.azure.wasb-storage-account=giggsotrinouat
+    hive.azure.wasb-access-key=${env.AZURE_ACCESS_KEY}
+    #hive.azure.wasb-storage-account=${env.STORAGE_ACCOUNT}
+    hive.non-managed-table-writes-enabled=true
+  kafka.properties: |-
+    connector.name=kafka
+    kafka.hide-internal-columns=false
+    kafka.table-names=tpch.customer,tpch.orders,tpch.lineitem,tpch.part,tpch.partsupp,tpch.supplier,tpch.nation,tpch.region,gg-dev-filebeat,gg-dev-metricbeat,gg-capacity-alerts,my-topic,sample,test,quickstart-events 
+    kafka.nodes=10.4.0.6:30162
+  elasticsearch.properties: |-
+    connector.name=elasticsearch
+    elasticsearch.host=elasticsearch
+    elasticsearch.port=9200
+    elasticsearch.default-schema-name=default
+    elasticsearch.scroll-size=1000
+    elasticsearch.scroll-timeout=1m
+    elasticsearch.request-timeout=10s
+    elasticsearch.connect-timeout=1s
+    elasticsearch.max-retry-time=20s
+    elasticsearch.node-refresh-interval=1m
+
