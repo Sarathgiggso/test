@@ -7,6 +7,6 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 kubectl version --client
 
 sudo mkdir ~/.kube
-
-sudo scp $1:~/ggazure-int/ansible/inventory/artifacts/admin.conf ~/.kube/config
+#copying the kube configuration file to run the kubectl client
+sudo scp $1:~/ggazure-nsg/ansible/inventory/artifacts/admin.conf ~/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
