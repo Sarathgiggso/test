@@ -18,7 +18,7 @@ global:
 ##
 image:
   registry: docker.io
-  repository: giggsodocker/giggso-mariadb-prod
+  repository: giggsodocker/mariadb-k8 #giggsodocker/giggso-mariadb-prod
   #giggsodocker/mariadb-k8
   tag: latest
   #tag: 1.4.0
@@ -348,7 +348,7 @@ master:
     annotations: {}
 
 slave:
-  replicas: 0
+  replicas: 1
 
   ## Mariadb Slave additional pod annotations
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/

@@ -19,8 +19,8 @@ spec:
         app: web
     spec:
       serviceAccountName: jgroups-kubeping-service-account
-      nodeSelector:
-        kubernetes.io/hostname: giggso01-worker
+      #nodeSelector:
+      #  kubernetes.io/hostname: giggso01-worker
       imagePullSecrets:
       - name: docker-secret
       containers:

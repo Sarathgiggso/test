@@ -1,27 +1,28 @@
-
-#kubectl create secret docker-registry docker-secret --docker-server=https://index.docker.io/v1/ --docker-username=giggsodocker --docker-password=<pwd> --docker-email=support@giggso.com
-#kubectl taint nodes giggso-elastic dedicated_label=elastic:NoSchedule
-#kubectl taint nodes giggso-ml dedicated_label=ml:NoSchedule
-#kubectl label nodes giggso-ml dedicated_label=ml
-#kubectl taint nodes giggso02-elastic dedicated_label=elastic:NoSchedule
+echo Installing helm
+./get_helm.sh --version v3.2.4
 
 #To configure docker hub password to pull images from private repo
-
+echo creating docker hub credentials as secret
 kubectl apply -f ./docker-secret.yaml
 
 # to create storage class
-kubectl apply -f ./storage_class/storage_class.yml 
+echo Creating storageclass for PVCs
+kubectl apply -f ./storage_class/ 
 
 # to create NFS Provisioner for wildfly
+echo Creating nfs provisioner for web storage
 helm upgrade -i nfs-giggso nfs-server -f ./nfs-server/values.yaml
 
 # to create mariadb cluster
+echo Installing mariadb cluster
+
 helm upgrade -i giggso-mariadb mariadb-cluster -f ./mariadb-cluster/values-production.yaml
 #(cd ./docker-mariadb;
 
 #docker-compose up -d)
 
 # to create elasticsearch cluster
+echo Installing Elastic cluster ET:5-10mins
  # To create data node group
 helm upgrade -i es-giggsodata elasticsearch -f ./elasticsearch/giggsodata.yml
 sleep 2m
@@ -34,12 +35,18 @@ helm upgrade -i es-client elasticsearch -f ./elasticsearch/client.yml
 
  # To create neo4j node
 #helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml
+echo Installing Neo4j
+kubectl create namespace nginx-ingress
 helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml --namespace nginx-ingress
 
 # To install monitoring service
-helm install --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml
+echo Installing monitoring services
+helm repo add prometheus-community    https://prometheus-community.github.io/helm-charts
+kubectl create namespace monitoring
+helm upgrade -i --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml
 
 sleep 5m
+echo Installing Giggso core services 
 # to deploy php service
 kubectl apply -f ./php/
 
@@ -53,7 +60,7 @@ kubectl apply -f ./pulsar/
 kubectl apply -f ./keycloak/
 
 # to deploy wildfly service
-kubectl apply -f ./web/web-deployment.yaml
+kubectl apply -f ./web/
 
 #to deploy angular
 kubectl apply -f ./angular/
@@ -68,6 +75,7 @@ kubectl apply -f ./kafka/
 kubectl apply -f ./trino/
 
 #to deploy AIML services
+echo "deploying AIML services"
 kubectl apply -f ./bert-encoder/
 kubectl apply -f ./capacity-prediction/roles-rbac/
 kubectl apply -f ./capacity-prediction/jobchecker/
@@ -86,6 +94,7 @@ kubectl apply -f ./loganomaly/jobcreationapi/
 #To install certificate manager
 (cd ./cert_manager; ./cert-manager.sh)
 
+echo Deploying nginx ingress controller
 # to install nginx ingress controller
 (cd ./ingress;
 ./ingress-daemonset.sh)

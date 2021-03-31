@@ -91,9 +91,9 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 
-#nodeSelector: {}
-nodeSelector:
-  kubernetes.io/hostname: giggso01-worker
+nodeSelector: {}
+#nodeSelector:
+#kubernetes.io/hostname: giggso01-worker
 
 tolerations: []
 

@@ -59,7 +59,7 @@ secretMounts: []
 #    path: /usr/share/elasticsearch/config/certs
 #    defaultMode: 0755
 
-image: giggsodocker/giggso-elastic-uat-azure 
+image: giggsodocker/giggso-elastic-uat 
 #giggsodocker/giggso-elastic-prod
 #giggsodocker/elasticsearch
 imageTag: latest
@@ -104,7 +104,7 @@ volumeClaimTemplate:
   storageClassName: ssd-os-disk
   resources:
     requests:
-      storage: 350Gi
+      storage: 50Gi
 #    storageClassName: azure-os-disk 
 rbac:
   create: false
@@ -130,6 +130,9 @@ podSecurityPolicy:
 
 persistence:
   enabled: true
+  labels:
+ # Add default labels for the volumeClaimTemplate fo the StatefulSet
+     enabled: false
   annotations: {}
 
 extraVolumes: []
@@ -288,9 +291,7 @@ masterTerminationFix: false
 sysctlInitContainer:
   enabled: true
 
-#keystore: []
-keystore:
-   - secretName: azure-backup
+keystore: []
 # Deprecated
 # please use the above podSecurityContext.fsGroup instead
 fsGroup: ""

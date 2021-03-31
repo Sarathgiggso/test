@@ -1,14 +1,14 @@
 # to delete mariadb cluster
-#helm delete giggso-mariadb
-(cd ./docker-mariadb;
+helm delete giggso-mariadb
+#(cd ./docker-mariadb;
 
-docker-compose down)
+#docker-compose down)
 
 # to delete elasticsearch cluster
   # To delete master node
 helm delete es-master 
  # To delete data node
-helm delete es-data 
+helm delete es-giggsodata 
   # To delete master node
 helm delete es-ingest
  # To delete data node
@@ -16,8 +16,7 @@ helm delete es-client
 
 #to delete neo4j
 helm delete neo4j -n nginx-ingress
-
-#helm delete es-data-new
+helm delete kops-cluster-monitoring -n monitoring
 #To delete certificate manager
 #./cert-manager/cert-manager.sh
 
@@ -44,13 +43,6 @@ kubectl delete -f ./keycloak/
 # to undeploy wildfly service
 kubectl delete -f ./web/web-deployment.yaml
 
-
-# to undeploy log anomaly service
-kubectl delete -f ./loganomaly/
-
-# to undeploy log ingestion service
-kubectl delete -f ./log-ingestion/
-
 # to undeploy angular service
 #kubectl delete configmap env-config 
 kubectl delete -f ./angular/
@@ -60,17 +52,29 @@ kubectl delete -f ./audit_trail/
 
 # to undeploy rule engine service
 kubectl delete -f ./ruleengine/
+#to deploy kafka
+kubectl delete -f ./kafka/
 
-# to undeploy capacity-prediction service
-#kubectl delete -f ./capacity-prediction/
+#to deploy trino
+kubectl delete -f ./trino/
+
+#to deploy AIML services
+kubectl delete -f ./bert-encoder/
+kubectl delete -f ./capacity-prediction/roles-rbac/
+kubectl delete -f ./capacity-prediction/jobchecker/
+kubectl delete -f ./capacity-prediction/jobcreationapi/
+kubectl delete -f ./capacity-prediction/capacity-report/
+kubectl delete -f ./correlated-events/
+kubectl delete -f ./gg-recommendations/
+kubectl delete -f ./giggso-aiml-logparser/
+kubectl delete -f ./giggso-aiml-rca/
+kubectl delete -f ./giggso-aiml-sme/
+kubectl delete -f ./log-ingestion/
+kubectl delete -f ./loganomaly/roles-rbac/
+kubectl delete -f ./loganomaly/jobchecker/
+kubectl delete -f ./loganomaly/jobcreationapi/
+
 # to delete nginx ingress controller
 cd ingress/
 
 ./ingress-deletion.sh
-
-# to delete NFS Provisioner for wildfly
-#Ehelm delete nfs-giggso nfs-server -f ./nfs-server/values.yaml 
-
-# to delete storage class
-#kubectl delete -f ./storage_class/storage_class.yml
-

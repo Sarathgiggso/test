@@ -25,11 +25,6 @@ esConfig:
           cluster.name: "docker-cluster"
           network.host: 0.0.0.0
           logger.org.elasticsearch.index.reindex: error
-          reindex.remote.whitelist: "dev.giggso.com:9200"
-          #reindex.remote.whitelist: "uat.giggso.com:9200"
-          
-          #xpack.security.enabled: true
-          #xpack.security.transport.ssl.enabled: true
           #  elasticsearch.yml: |
 #    key:
 #      nestedkey: value
@@ -59,7 +54,7 @@ secretMounts: []
 #    path: /usr/share/elasticsearch/config/certs
 #    defaultMode: 0755
 
-image: giggsodocker/giggso-elastic-uat-azure
+image: giggsodocker/giggso-elastic-uat
 #docker.elastic.co/elasticsearch/elasticsearch
 #giggsodocker/giggso-elastic-prod
 #giggsodocker/elasticsearch
@@ -283,9 +278,9 @@ lifecycle: {}
 sysctlInitContainer:
   enabled: true
 
-#keystore: []
-keystore:
-   - secretName: azure-backup
+keystore: []
+#keystore:
+#   - secretName: azure-backup
 
 # Deprecated
 # please use the above podSecurityContext.fsGroup instead
