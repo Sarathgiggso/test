@@ -18,10 +18,10 @@ global:
 ##
 image:
   registry: docker.io
-  repository: giggsodocker/mariadb-k8 #giggsodocker/giggso-mariadb-prod
+  repository: giggsodocker/mariadb-k8-aa #giggsodocker/giggso-mariadb-prod
   #giggsodocker/mariadb-k8
   tag: latest
-  #tag: 1.4.0
+  #tag: 1.0.0
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -283,8 +283,8 @@ master:
   ##
   config: |-
     [mysqld]
-    disable_log_bin
-    skip-log-bin
+    #disable_log_bin
+    #skip-log-bin
     skip-name-resolve
     explicit_defaults_for_timestamp
     basedir=/opt/bitnami/mariadb
@@ -431,8 +431,8 @@ slave:
   ##
   config: |-
     [mysqld]
-    disable_log_bin
-    skip-log-bin
+    #disable_log_bin
+    #skip-log-bin
     #log_bin=/var/log/mysql/mysql-bin.log
     skip-name-resolve
     explicit_defaults_for_timestamp

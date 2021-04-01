@@ -206,8 +206,8 @@ spec:
               mountPath: /bitnami/mariadb
             {{- if .Values.slave.config }}
             - name: config
-              mountPath: /opt/bitnami/mariadb/conf/my.cnf
-              subPath: my.cnf
+              mountPath: /opt/bitnami/mariadb/conf
+              #subPath: my.cnf
             {{- end }}
             {{- if or .Values.rootUser.injectSecretsAsVolume .Values.replication.injectSecretsAsVolume }}
             - name: mariadb-credentials
