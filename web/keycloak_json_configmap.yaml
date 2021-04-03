@@ -5,7 +5,7 @@ data:
      "realm": "giggso",
      "bearer-only": true,
      "auth-server-url": "https://ggdevkc.giggso.com/auth",
-    "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjSsMYixsKJdA+anoKFXE47YCRTVUpIp9K3b1zIrdI3/aQx7gbqDQVOKvaRkiGLpOxXuhGYmMh00x5SwoLGmCCNXo1kSlA2jBAF/NH4HtELsmjX57nPQBBcKww01cmvPnpUfS07tNSHhq76dbQdyqq0zpj4OTW4R8bn7C/Zyn367qQQoms+0SojEHzZgFdxRC9J/5GhLHX/JpFTLnEsArKXh0E0feuOtEU2wp8ow71jC9S+zTo1kpYa+j7TfGJR03+43z71mOsP02sb4NTwt3nGyIF2Db2PqPEfXp9hMUJlOgeSrrSd5TUuxxSXzhGerAUupDkRM6nIfoaWtO61uuzwIDAQAB",
+    "realm-public-key": "keycloakkey",
     "ssl-required": "none",
      "resource": "giggso-services",
      "enable-cors" : true,
