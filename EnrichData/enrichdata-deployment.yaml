@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-enrichdata
+  name: giggso-enrichdata
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-enrichdata
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-enrichdata
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-enrichdata-uat
+        #giggsodocker/giggso-enrichdata
+        name: giggso-enrichdata
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "4Gi"
+        volumeMounts:
+        - mountPath: /giggsoaccess.properties
+          subPath: giggsoaccess.properties
+          name: enrichdata-config
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: enrichdata-config
+        configMap:
+          name: enrichdata-config
+
+

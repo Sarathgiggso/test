@@ -1,4 +1,27 @@
-az storage account create --name $2 --resource-group $1 --kind StorageV2
-az storage container create -n $3 --account-name $2
-az storage account keys list -g $1 -n $2 | grep -o '"value": "[^"]*' | grep -m 1 -o '[^"]*$'
+#!/bin/bash  
+  
+# Read the user input   
+echo "Please make sure az login done in this server"
 
+echo "Enter the storage account  name(no special acharacters allowed): "  
+read storage_name
+echo "Enter the resource group name:"
+read res_group
+echo "Is this existing storage account(type yes/no): "  
+read flag  
+
+if [[ $flag == "yes" ]]; then
+     az storage account create --name $storage_name --resource-group $res_group --kind StorageV2
+     echo " storageaccount $storage_name created"
+fi
+echo "Enter the container name:"
+read container
+echo "container creating"
+az storage container create -n $container  --account-name $storage_name
+echo "container for trino created"
+echo "receiving access keys"
+secret=$(az storage account keys list -g $res_group -n $storage_name | grep -o '"value": "[^"]*' | grep -m 1 -o '[^"]*$')
+echo "$secret"
+echo "secrets retrieved. Please keep a note of them for deploying in cluster"
+echo "Creating kubernetes secret"
+kubectl create secret generic azure-blob-access --from-literal=storage-account='$storage_name' --from-literal=access-key='$secret'

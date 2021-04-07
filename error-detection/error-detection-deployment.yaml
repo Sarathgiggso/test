@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: error-detection
+  name: error-detection
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: error-detection
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: error-detection
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - env:
+        - name: ELASTICSEARCH_URL
+          value: 'http://elasticsearch:9200'
+          #value: 'http://10.4.0.4:7201'
+        - name: TRINO_CATALOG
+          value: 'kafka'
+        - name: TRINO_SCHEMA
+          value: 'default'
+        - name: TIME_INDEX
+          value: 'ggprocessess'
+        - name: KAFKA_ADDRESS
+          value: 'kafka-service:9092'
+        - name: TRINO_TABLE
+          value: 'gglogs'
+        - name: KAFKA_TOPIC_ERROR
+          value: 'ggerrors'
+        - name: KAFKA_TOPIC_NON_ERROR
+          value: 'ggerrorprocessed'
+        - name: TRINO_URL
+          value: 'trino'
+        - name: TRINO_PORT
+          value: '8080'
+        image: giggsodocker/errordetection-uat
+        #giggsodocker/error-detection
+        name: error-detection
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "2Gi"
+        ports:
+        - containerPort: 8202
+          #- containerPort: 2222
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+

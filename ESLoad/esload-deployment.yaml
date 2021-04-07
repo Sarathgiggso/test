@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-esload
+  name: giggso-esload
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-esload
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-esload
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-esload-uat
+        #giggsodocker/giggso-esload
+        name: giggso-esload
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "4Gi"
+        volumeMounts:
+        - mountPath: /giggsoaccess.properties
+          subPath: giggsoaccess.properties
+          name: esload-config
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: esload-config
+        configMap:
+          name: esload-config
+
+

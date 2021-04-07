@@ -55,14 +55,14 @@ data:
     #hive.s3.aws-secret-key=
     hive.metastore-timeout=60s
     #hive.s3select-pushdown.enabled=true
-    hive.azure.wasb-storage-account=giggsotrinouat
+    #hive.azure.wasb-storage-account=giggsotrinouat
     hive.azure.wasb-access-key=${env.AZURE_ACCESS_KEY}
-    #hive.azure.wasb-storage-account=${env.STORAGE_ACCOUNT}
+    hive.azure.wasb-storage-account=${env.STORAGE_ACCOUNT}
     hive.non-managed-table-writes-enabled=true
   kafka.properties: |-
     connector.name=kafka
     kafka.hide-internal-columns=false
-    kafka.table-names=tpch.customer,tpch.orders,tpch.lineitem,tpch.part,tpch.partsupp,tpch.supplier,tpch.nation,tpch.region,gg-dev-filebeat,gg-dev-metricbeat,gg-capacity-alerts,my-topic,sample,test,quickstart-events 
+    kafka.table-names=tpch.customer,tpch.orders,tpch.lineitem,tpch.part,tpch.partsupp,tpch.supplier,tpch.nation,tpch.region,gg-noncore-errors,gglograwdata,gg-capacity-alerts,my-topic,sample,test,quickstart-events,gglogs,ggerrorprocessed,ggprocessess,ggerrors,ggrulematches,ggruleprocessed,gganomalies,gg-noncore-data 
     kafka.nodes=10.4.0.6:30162
   elasticsearch.properties: |-
     connector.name=elasticsearch
