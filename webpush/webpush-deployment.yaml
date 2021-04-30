@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-webpush
+  name: giggso-webpush
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-webpush
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-webpush
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-webpush-uat
+        #giggsodocker/giggso-webpush
+        name: giggso-webpush
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "4Gi"
+        volumeMounts:
+        - mountPath: /pushmicroservice.properties
+          subPath: pushmicroservice.properties
+          name: webpush-config
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: webpush-config
+        configMap:
+          name: webpush-config
+
+

@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  pushmicroservice.properties: |
+    DRIVER_CLASS=org.mariadb.jdbc.Driver
+    DB_URL=jdbc:mariadb://10.4.0.7:3306/giggso
+    DB_USER_NAME=root
+    DB_PASSWORD=root
+    GG_ICON_PATH=https://ggdev.giggso.com/assets/giggso_assets/img/popuplogo.png
+kind: ConfigMap
+metadata:
+  name: webpush-config
+
