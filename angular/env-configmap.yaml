@@ -23,6 +23,7 @@ data:
         window.__env.DIALOGFLOW_TOKEN = 'abd5f6a0dc614b018302d7587f4e3dc3';
         window.__env.TERMINAL_SOCKET_URL = 'https://' + window['__env'].HOST_PROD + '/terminal';
         window.__env.REGISTRATIONREQUIRED = true;
+        window.__env.VAPID_PUBLIC_KEY ='vapidpublickey'
     }(this));
 kind: ConfigMap
 metadata:
