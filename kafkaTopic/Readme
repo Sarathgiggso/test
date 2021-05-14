@@ -1,0 +1,4 @@
+Use below command to run the jar. Update kafka endpoint details
+
+
+java -jar KafkaTopicCretaion.jar 5 <<kafkaendpoint>>
