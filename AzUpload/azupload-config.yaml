@@ -5,7 +5,7 @@ data:
     ###### Elastic Search Source Configuration ###############################################################
 
     KAFKA_BOOTSTRAP_SERVER=kafka-cluster:9092
-    BLOB-CONNECTION=DefaultEndpointsProtocol=https;AccountName=giggsotrinouat;AccountKey=IiksOfaKajU9N6ZnZzagnGNXjJEgBQ4tGxbpjsE/WKU5P1Q8IWxLvgg75dBQiduzw41rKzEiarWB9wed4LobDw==;EndpointSuffix=core.windows.net
+    BLOB-CONNECTION=DefaultEndpointsProtocol=https;AccountName=storageaccountname;AccountKey=storageaccesskey;EndpointSuffix=core.windows.net
     BLOB-CONTAINER-NAME=gglogspt
     SOURCE_SCHEMA=http
     SOURCE_HOST=elasticsearch
