@@ -84,6 +84,14 @@ spec:
         - name: trino-cfg-vol
           configMap:
             name: trino-configs
+      nodeSelector:
+        dedicated_label: coordinator
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "coordinator"
+          effect: "NoSchedule"
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -91,7 +99,7 @@ metadata:
   name: trino-worker
 spec:
   serviceName: trino-worker 
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: trino-worker
@@ -159,6 +167,13 @@ spec:
         - name: trino-cfg-vol
           configMap:
             name: trino-configs
+      nodeSelector:
+        dedicated_label: trino
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "trino"
+          effect: "NoSchedule"
   volumeClaimTemplates:
   - metadata:
       name: trino-tmp-data
@@ -181,3 +196,11 @@ spec:
     command: ["tail", "-f", "/dev/null"]
     imagePullPolicy: Always
   restartPolicy: Always
+  nodeSelector:
+    dedicated_label: trino
+  tolerations:
+    - key: "dedicated_label"
+      operator: "Equal"
+      value: "trino"
+      effect: "NoSchedule"
+

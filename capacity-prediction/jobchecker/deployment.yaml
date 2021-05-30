@@ -24,7 +24,7 @@ spec:
          - name: INDEX
            value: ggjobs
          - name: ELASTICSEARCH_URL
-           value: http://10.4.0.4:7201
+           value: http://elasticsearch:9200
          - name: JOB_CREATION_API
            value: http://jobapi:8082
          - name: ES_USER

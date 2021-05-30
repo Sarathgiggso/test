@@ -15,6 +15,7 @@ services:
         MYSQL_PASSWORD: ggpwd
       ports:
         - 3306:3306
+      restart: always
       networks:
         - elk
 networks:

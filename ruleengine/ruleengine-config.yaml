@@ -10,6 +10,7 @@ data:
     SOURCE_HOST_USERNAME=elastic
     SOURCE_HOST_PASSWORD=changeme
     SOURCE_HOST_CONNECTION_TIMEOUT=100
+    CLUSTER_NAME=docker-cluster
 
     ##########################################################################################################
     ###### Rest Template Configuration #######################################################################
@@ -31,6 +32,25 @@ data:
     SERVER_PORT=8123
 
     ########################################################################################################
+    #######################################
+    ########## Trino Config ###############
+    TRINO_JDBC_DRIVER=io.trino.jdbc.TrinoDriver
+      #jdbc:trino://example.net:8080/topic/schema?user=test&password=****&SSL=true
+    TRINO_JDBC_BASE_URL=jdbc:trino://trino:8080/kafka/default?user=test
+    #topic to fetch the logs from the kafka
+    TRINO_KAFKA_TOPIC_GGLOGS=gglogs
+    #######################################
+
+    #######################################
+    ########## Kafka Config ###############
+    KAFKA_BASE_URL=kafka-cluster
+    KAFKA_PORT=9092
+    #topic to produce matched rules
+    KAFKA_TOPIC_MATCHED_RULES=ggrulematches
+    #topic to produce unmatched rules
+    KAFKA_TOPIC_UNMATCHED_RULES=ggruleprocessed
+    #######################################
+  
 kind: ConfigMap
 metadata:
   name: ruleengine-config

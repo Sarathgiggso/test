@@ -28,7 +28,7 @@ spec:
         name: giggso-aiml-logparser
         resources:
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "1Gi"
           limits:
             cpu: "450m"

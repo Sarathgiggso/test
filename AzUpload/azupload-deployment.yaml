@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-azupload
+  name: giggso-azupload
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-azupload
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-azupload
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-azupload-uat
+        #giggsodocker/giggso-azupload
+        name: giggso-azupload
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "4Gi"
+        volumeMounts:
+        - mountPath: /giggsoaccess.properties
+          subPath: giggsoaccess.properties
+          name: azupload-config
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: azupload-config
+        configMap:
+          name: azupload-config
+
+

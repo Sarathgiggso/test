@@ -2,132 +2,57 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hadoop-master
+  name: metastore
 spec:
   ports:
   - name: "9083"
     port: 9083
     targetPort: 9083
-  - name: "9000"
-    port: 9000
-    targetPort: 9000
-  - name: "1180"
-    port: 1180
-    targetPort: 1180
-  - name: "8020"
-    port: 8020
-    targetPort: 8020
-  - name: "8042"
-    port: 8042
-    targetPort: 8042
-  - name: "8088"
-    port: 8088
-    targetPort: 8088
-  - name: "9864"
-    port: 9864
-    targetPort: 9864
-  - name: "9870"
-    port: 9870
-    targetPort: 9870
-  - name: "10000"
-    port: 10000
-    targetPort: 10000
-  - name: "19888"
-    port: 19888
-    targetPort: 19888
-  - name: "50070"
-    port: 50070
-    targetPort: 50070
-  - name: "50075"
-    port: 50075
-    targetPort: 50075
   selector:
-    app: hadoop-master
+    app: metastore
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hadoop-master
+  name: metastore
 spec:
   selector:
     matchLabels:
-      app: hadoop-master
+      app: metastore
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: hadoop-master
+        app: metastore
     spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - name: hadoop-master
-        image: giggsodocker/giggso-hivemetastore-uat #'ghcr.io/trinodb/testing/hdp3.1-hive:latest' 
-        env:
-        - name: STORAGE_ACCOUNT
-          valueFrom:
-            secretKeyRef:
-              name: azure-blob-access
-              key: storage-account
-        - name: AZURE_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: azure-blob-access
-              key: access-key
+      - name: metastore
+        #image: joshuarobinson/hivemetastore
+        image: giggsodocker/giggso-metastore #giggsodocker/giggso-hivemetastore-uat
         ports:
-        - containerPort: 1180
-        - containerPort: 8020
-        - containerPort: 8042
-        - containerPort: 8088
-        - containerPort: 9000
         - containerPort: 9083
-        - containerPort: 9864
-        - containerPort: 9870
-        - containerPort: 10000
-        - containerPort: 19888
-        - containerPort: 50070
-        - containerPort: 50075
         volumeMounts:
         - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/core-site.xml
+          mountPath: /opt/hive-metastore/conf/metastore-site.xml
+          subPath: metastore-site.xml
+        - name: metastore-cfg-vol
+          mountPath: /opt/hadoop/etc/hadoop/core-site.xml
           subPath: core-site.xml
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/hdfs-site.xml
-          subPath: hdfs-site.xml
-        - name: metastore-cfg-vol
-          mountPath: /etc/tez/conf/tez-site.xml
-          subPath: tez-site.xml
-          readOnly: true
-        - name: metastore-cfg-vol
-          mountPath: /docker/files/core-site.xml.wasb-template
-          subPath: core-site.xml.wasb-template
-          readOnly: true
-        - name: metastore-cfg-vol
-          mountPath: /docker/files/hadoop-put.sh
-          subPath: hadoop-put.sh
-          readOnly: true
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/hadoop-metrics2.properties
-          subPath: hadoop-metrics2.properties
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/yarn-site.xml
-          subPath: yarn-site.xml
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/capacity-schedular.xml
-          subPath: capacity-schedular.xml
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/mapred-site.xml
-          subPath: mapred-site.xml
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/log4j.properties
-          subPath: log4j.properties
-        - name: metastore-cfg-vol
-          mountPath: /etc/hadoop/conf/hadoop-env.sh
-          subPath: hadoop-env.sh
+        command: ["/opt/hive-metastore/bin/start-metastore"]
+        args: ["-p", "9083"]
         imagePullPolicy: Always
       volumes:
         - name: metastore-cfg-vol
           configMap:
             name: metastore-cfg
+      nodeSelector:
+        dedicated_label: coordinator
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "coordinator"
+          effect: "NoSchedule"
 

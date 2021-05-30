@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: apm
+  name: apm
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: apm
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: apm
+    spec:
+      containers:
+       - env:
+         - name: ES_URL
+           value: elasticsearch:9200
+         image: giggsodocker/apm-uat
+        #image: giggsodocker/capacity-k8
+         name: apm
+         ports:
+          - containerPort: 8200
+      restartPolicy: Always
+
+

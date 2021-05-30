@@ -30,7 +30,7 @@ spec:
         - name: TIME_INDEX
           value: 'ggprocessess'
         - name: KAFKA_ADDRESS
-          value: 'kafka-service:9092'
+          value: 'kafka-cluster:9092'
         - name: TRINO_TABLE
           value: 'gglogs'
         - name: KAFKA_TOPIC_ERROR
@@ -46,7 +46,7 @@ spec:
         name: error-detection
         resources:
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "1Gi"
           limits:
             cpu: "450m"

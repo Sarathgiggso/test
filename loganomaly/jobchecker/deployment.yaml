@@ -22,18 +22,28 @@ spec:
          - name: JOB_INTERVAL
            value: "1"
          - name: INDEX
-           value: ggjobsannomaly
+           value: ggjobsanomaly
          - name: PULSAR_URL
-           value: pulsar://10.4.0.4:6650
+           value: pulsar://pulsar:6650
          - name: ELASTICSEARCH_URL
-           value: http://10.4.0.4:7201
+           value: http://elasticsearch:9200
          - name: JOB_CREATION_API
            value: http://loganomaly-jobapi:8083
          - name: ES_USER
            value: elastic
          - name: ES_PASS
            value: changeme
-        #image: datatrine/logstash_dts:5.5.2
+         - name: TRINO_HOST
+           value: trino
+         - name: TRINO_USER
+           value: username
+         - name: TRINO_PORT
+           value: "8080"
+         - name: TRINO_JOBS_CATALOG
+           value: elasticsearch
+         - name: TRINO_SCHEMA
+           value: default
+           #image: datatrine/logstash_dts:5.5.2
         image: giggsodocker/loganomaly_jobchecker_uat
         imagePullPolicy: "Always"
         name: loganomaly-jobchecker

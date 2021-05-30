@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: giggso-nclogaggregator
+  name: giggso-nclogaggregator
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: giggso-nclogaggregator
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: giggso-nclogaggregator
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - image: giggsodocker/giggso-nclogaggregator-uat
+        #giggsodocker/giggso-nclogaggregator
+        name: giggso-nclogaggregator
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "1Gi"
+          limits:
+            cpu: "450m"
+            memory: "4Gi"
+        volumeMounts:
+        - mountPath: /giggsoaccess.properties
+          subPath: giggsoaccess.properties
+          name: nclogaggregator-config
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: nclogaggregator-config
+        configMap:
+          name: nclogaggregator-config
+
+

@@ -1,0 +1,28 @@
+apiVersion: v1
+data:
+  giggsoaccess.properties: |
+    ##########################################################################################################
+    ###### Elastic Search Source Configuration ###############################################################
+
+    SOURCE_SCHEMA=http
+    SOURCE_HOST=elasticsearch
+    SOURCE_PORT=9300
+    SOURCE_REST_PORT=9201
+    SOURCE_HOST_USERNAME=elastic
+    SOURCE_HOST_PASSWORD=changeme
+    SOURCE_HOST_CONNECTION_TIMEOUT=100
+    CLUSTER_NAME=docker-cluster
+    #######################################
+    ########## Trino Config ###############
+    TRINO_JDBC_DRIVER=io.trino.jdbc.TrinoDriver
+    TRINO_BASE_URL=jdbc:trino://trino:8080/hive/logs?user=test
+
+    #######################################
+    ########## MariaDB Config ###############
+    DB_DRIVER=org.mariadb.jdbc.Driver
+    DB_BASE_URL=jdbc:mariadb://10.4.0.7:3306/giggso?user=root&password=root
+
+kind: ConfigMap
+metadata:
+  name: nclogaggregator-config
+

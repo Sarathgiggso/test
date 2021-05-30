@@ -26,8 +26,8 @@ image:
   ## pullSecrets:
   ##   - myRegistryKeySecretName
   ##
-  pullSecrets: []
-
+  pullSecrets: 
+      - docker-secret
   ## Set to true if you would like to see extra information on logs
   ##
   debug: false
@@ -120,8 +120,8 @@ commonAnnotations: {}
 
 ## Kafka's Java Heap size
 ##
-heapOpts: -Xmx1024m -Xms1024m
-
+#heapOpts: -Xmx1024m -Xms1024m
+heapOpts: -Xmx6g -Xms6g
 ## Switch to enable topic deletion or not.
 ##
 deleteTopicEnable: false
@@ -149,7 +149,7 @@ logRetentionCheckIntervalMs: 300000
 
 ## The minimum age of a log file to be eligible for deletion due to age.
 ##
-logRetentionHours: 168
+logRetentionHours: 48
 
 ## The maximum size of a log segment file. When this size is reached a new log segment will be created.
 ##
@@ -193,7 +193,7 @@ numPartitions: 1
 
 ## The number of threads per data directory to be used for log recovery at startup and flushing at shutdown.
 ##
-numRecoveryThreadsPerDataDir: 1
+numRecoveryThreadsPerDataDir: 3
 
 ## The receive buffer (SO_RCVBUF) used by the socket server.
 ##
@@ -209,7 +209,8 @@ socketSendBufferBytes: 102400
 
 ## Timeout in ms for connecting to zookeeper.
 ##
-zookeeperConnectionTimeoutMs: 6000
+#zookeeperConnectionTimeoutMs: 6000
+zookeeperConnectionTimeoutMs: 18000
 
 ## Command and args for running the container. Use array form
 ##
@@ -405,7 +406,7 @@ auth:
 ## When it's set to an empty array, the advertised listeners will be configured
 ## based on the authentication protocols (auth.clientProtocol and auth.interBrokerProtocol parameters)
 ##
-  advertisedListeners: [INSIDE://10.1.1.6:30162,OUTSIDE://10.1.1.6:30162] #PLAINTEXT://10.1.1.6:30162
+  advertisedListeners: [INSIDE://10.4.0.10:30162,OUTSIDE://10.4.0.10:30162] #PLAINTEXT://10.1.1.6:30162
 
 ## The listener->protocol mapping
 ## When it's nil, the listeners will be configured
@@ -499,12 +500,21 @@ affinity: {}
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
-nodeSelector: {}
+nodeSelector:
+  dedicated_label: kafka
+  #tolerations: []
+tolerations:
+  - key: "dedicated_label"
+    operator: "Equal"
+    value: "kafka"
+    effect: "NoSchedule"
+
+#nodeSelector: {}
 
 ## Tolerations for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 ##
-tolerations: []
+#tolerations: []
 
 ## Configure the grace time period for sig term
 ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#hook-handler-execution
@@ -537,35 +547,41 @@ resources:
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits: {}
-  #   cpu: 250m
-  #   memory: 1Gi
-  requests: {}
-  #   cpu: 250m
-  #   memory: 256Mi
+  limits: 
+     cpu: 1250m
+     memory: 24Gi
+  requests: 
+     cpu: 250m
+     memory: 2Gi
 
 ## Kafka containers' liveness and readiness probes. Evaluated as a template.
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
 ##
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 10
+  initialDelaySeconds: 1200
   timeoutSeconds: 5
   # failureThreshold: 3
   # periodSeconds: 10
   # successThreshold: 1
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 5
-  failureThreshold: 6
+  initialDelaySeconds: 60
+  failureThreshold: 10
   timeoutSeconds: 5
-  # periodSeconds: 10
+  periodSeconds: 20
   # successThreshold: 1
 
 ## Custom liveness/readiness probes that will override the default ones
 ##
 customLivenessProbe: {}
 customReadinessProbe: {}
+#customReadinessProbe:
+#  exec:
+#    command:
+#    - bash
+#    - -c
+#    - "/opt/bitnami/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server=kafka-cluster:9092"
 
 ## Pod Disruption Budget configuration
 ## The PDB will only be created if replicaCount is greater than 1
@@ -742,7 +758,7 @@ persistence:
     - ReadWriteOnce
   ## PVC size
   ##
-  size: 8Gi
+  size: 80Gi
   ## PVC annotations
   ##
   annotations: {}
@@ -902,13 +918,28 @@ provisioning:
   command: []
   args: []
 
-  topics: 
-   - name: gglogs
-     partitions: 1
+  topics:
+   - name: ggruleprocessed
+     partitions: 5
      replicationFactor: 1
    - name: gglograwdata
-     partitions: 1
+     partitions: 5
      replicationFactor: 1
+   - name: ggrulematches
+     partitions: 5
+     replicationFactor: 1
+   - name: ggerrors
+     partitions: 5
+     replicationFactor: 1
+   - name: ggerrorprocessed
+     partitions: 5
+     replicationFactor: 1
+   - name: gganomalies
+     partitions: 5
+     replicationFactor: 1
+   - name: gg-noncore-data
+     partitions: 5
+     replicationFactor: 1 
   # - name: topic-name
   #   partitions: 1
   #   replicationFactor: 1

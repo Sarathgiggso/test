@@ -23,12 +23,34 @@ spec:
         - name: ELASTICSEARCH_URL
           value: 'http://elasticsearch:9200'
           #value: 'http://10.4.0.4:7201'
+        - name: ES_USER
+          value: elastic
+        - name: ES_PASS
+          value: changeme
+        - name: TRINO_URL
+          value: trino
+        - name: TRINO_USER
+          value: username
+        - name: TRINO_PORT
+          value: "8080"
+        - name: TRINO_ELASTIC_CATALOG
+          value: elasticsearch
+        - name: TRINO_ELASTIC_SCHEMA
+          value: default          
+        - name: TRINO_AZURE_SCHEMA
+          value: default
+        - name: TRINO_AZURE_CATALOG
+          value: hive
+        - name: TRINO_KAFKA_SCHEMA
+          value: default
+        - name: TRINO_KAFKA_CATALOG
+          value: kafka
         image: giggsodocker/giggso-aiml-rca-uat
         #giggsodocker/giggso-aiml-rca
         name: giggso-aiml-rca
         resources:
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "1Gi"
           limits:
             cpu: "450m"

@@ -23,11 +23,11 @@ spec:
          - name: JOB_INDEX
            value: ggjobs
          - name: ELASTICSEARCH_URL
-           value: http://10.4.0.4:7201
+           value: http://elasticsearch:9200
          - name: WILDFLY_URL
            value: "http://web:8080"
          - name: KAFKA_ADDRESS
-           value: 10.4.0.4:9092
+           value: "kafka-cluster:9092" 
          - name: KAFKA_TOPIC
            value: gg-capacity-alerts
          - name: AUTH_TOKEN

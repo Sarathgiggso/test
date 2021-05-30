@@ -20,14 +20,19 @@ spec:
       - name: docker-secret
       containers:
       - env:
-         - name: ES_ENDPOINT
-           value: http://ggdev.giggso.com:30920
+         - name: LOG_ENDPOINT
+           value: domain-name:5044
+         - name: METRIC_ENDPOINT
+           value: domainname:30920
+         - name: PACKET_ENDPOINT
+           value: domainname:30920  
+           #value: http://ggdev.giggso.com:30920
         image: giggsodocker/giggso-log-ingestion-uat
         imagePullPolicy: "Always"
         name: capacityjob
         resources:
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "1Gi"
           limits:
             cpu: "500m"

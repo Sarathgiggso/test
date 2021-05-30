@@ -302,8 +302,8 @@ alertmanager:
     loadBalancerSourceRanges: []
     ## Service type
     ##
-    type: ClusterIP
-
+    #type: ClusterIP
+    type: NodePort
   ## Configuration for creating a separate Service for each statefulset Alertmanager replica
   ##
   servicePerReplica:
@@ -1350,8 +1350,8 @@ prometheusOperator:
   ## Service type
   ## NodePort, ClusterIP, loadbalancer
   ##
-    type: ClusterIP
-
+   #type: ClusterIP
+    type: NodePort
     ## List of IP addresses at which the Prometheus server service is available
     ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
     ##
@@ -1562,8 +1562,8 @@ prometheus:
     loadBalancerSourceRanges: []
     ## Service type
     ##
-    type: ClusterIP
-
+    #type: ClusterIP
+    type: NodePort
     sessionAffinity: ""
 
   ## Configuration for creating a separate Service for each statefulset Prometheus replica

@@ -1,5 +1,5 @@
 kubectl apply -f metastore-cfg.yaml
-kubectl rollout restart deploy hadoop-master
+kubectl rollout restart deploy metastore
 sleep 1m
 kubectl rollout restart sts trino-worker
 kubectl rollout restart deploy trino-coordinator

@@ -25,8 +25,8 @@ image:
   ## Secrets must be manually created in the namespace.
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
-  # pullSecrets:
-  #   - myRegistryKeySecretName
+  pullSecrets:
+     - docker-secret  #- myRegistryKeySecretName
   ## Set to true if you would like to see extra information on logs
   ## It turns BASH and/or NAMI debugging in the image
   ##
@@ -352,12 +352,21 @@ affinity: {}
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
-nodeSelector: {}
+nodeSelector:
+  dedicated_label: coordinator
+  #tolerations: []
+tolerations:
+  - key: "dedicated_label"
+    operator: "Equal"
+    value: "coordinator"
+    effect: "NoSchedule"
+
+#nodeSelector: {}
 
 ## Tolerations for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 ##
-tolerations: []
+#tolerations: []
 
 ## Labels
 ## Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/

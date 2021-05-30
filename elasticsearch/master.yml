@@ -228,12 +228,12 @@ schedulerName: ""
 imagePullSecrets:
   - name: docker-secret
 nodeSelector:
-  dedicated_label: elastic
+  dedicated_label: coordinator
   #tolerations: []
 tolerations:
   - key: "dedicated_label"
     operator: "Equal"
-    value: "elastic"
+    value: "coordinator"
     effect: "NoSchedule"
 # Enabling this will publically expose your Elasticsearch instance.
 # Only enable this if you have security enabled on your cluster

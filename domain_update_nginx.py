@@ -1,14 +1,12 @@
-######Script to update domain name in nginx server######################
-
 import os
 import fileinput
 
-#CWD = os.path.dirname(os.path.realpath(__file__))
+CWD = os.path.dirname(os.path.realpath(__file__))
 
 #filelist = [os.path.join(CWD, file) for file in filelist] 
 # will give full path for all the items in the list
-filelist = [os.path.join(os.getenv("HOME"),"nginx-loadbalancer","nginx.conf"),
-os.path.join(os.getenv("HOME"),"nginx-loadbalancer","docker-compose.yaml")]
+filelist = [os.path.join(CWD,"nginx","nginx.conf"),
+os.path.join(CWD,"nginx","docker-compose.yaml")]
 
 print("Please Make sure you are running this script with python 3")
 
