@@ -65,7 +65,9 @@ kubectl apply -f ./angular/
 kubectl apply -f ./audit_trail/
 
 #to deploy kafka
-kubectl apply -f ./kafka/
+helm upgrade -i zookeeper-cluster zookeeper -f ./zookeeper/values.yaml 
+helm upgrade -i kafka-cluster kafka -f ./kafka/values.yaml 
+
 
 #to deploy trino
 kubectl apply -f ./trino/
