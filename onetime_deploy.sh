@@ -26,13 +26,9 @@ echo Installing Elastic cluster ET:5-10mins
  # To create data node group
 helm upgrade -i es-giggsodata elasticsearch -f ./elasticsearch/giggsodata.yml
 sleep 2m
- # To create ingest nodegroup
-helm upgrade -i es-ingest elasticsearch -f ./elasticsearch/ingest.yml
 # To create master nodegroup
 helm upgrade -i es-master elasticsearch -f ./elasticsearch/master.yml
- # To create client nodegroup
-helm upgrade -i es-client elasticsearch -f ./elasticsearch/client.yml
-
+kubectl apply -f elasticsearch/rollover-deployment.yaml
  # To create neo4j node
 #helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml
 echo Installing Neo4j
@@ -43,7 +39,7 @@ helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml --namespa
 echo Installing monitoring services
 helm repo add prometheus-community    https://prometheus-community.github.io/helm-charts
 kubectl create namespace monitoring
-helm upgrade -i --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml
+helm upgrade -i --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml --version 13.10.0
 
 sleep 5m
 echo Installing Giggso core services 
@@ -73,6 +69,14 @@ kubectl apply -f ./kafka/
 
 #to deploy trino
 kubectl apply -f ./trino/
+
+#to deploy java microservices
+kubectl apply -f ./error-detection/
+kubectl apply -f ./ESLoad/
+kubectl apply -f ./EnrichData/
+kubectl apply -f ./AzUpload/
+kubectl apply -f ./webpush/
+kubectl apply -f ./NoncoreLogAggregator/
 
 #to deploy AIML services
 echo "deploying AIML services"
