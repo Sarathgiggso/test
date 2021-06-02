@@ -12,3 +12,6 @@ kubectl rollout restart deploy web
 
 sudo ./web_image_copy.sh
 
+echo "creating schemas through trino"
+../trino/run_schema.sh
+
