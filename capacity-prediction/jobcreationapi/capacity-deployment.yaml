@@ -32,8 +32,7 @@ spec:
            value: gg-capacity-alerts
          - name: AUTH_TOKEN
            value: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJpaERVVEltXzVheXVWa2NteWZaOW5pckhQYVo1STZ3bXBoeHBtV1VSemc0In0.eyJleHAiOjE2MzY3MDE1NjQsImlhdCI6MTYwNTE2ODI3MiwiYXV0aF90aW1lIjoxNjA1MTY1NTY0LCJqdGkiOiI3ZWRhZTg1Yy1hM2VkLTRjMjctYTRmNC1lMGU3ZDAwMTZjODUiLCJpc3MiOiJodHRwczovL2dnZGV2a2MuZ2lnZ3NvLmNvbS9hdXRoL3JlYWxtcy9naWdnc28iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYTNkNzJiZGQtNGVhZS00MGE1LTkwZmQtYmFhNmQ3OTA0YWM4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYW5ndWxhci1jb3JzIiwibm9uY2UiOiJkMmFhMDgyOC00N2Y0LTQ0NjEtODJjZC1iYjUzNjlhO…Fpc2FsIGtoYW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJrZmFpc2FsQGdpZ2dzby5jb20iLCJnaXZlbl9uYW1lIjoiZmFpc2FsIiwiZmFtaWx5X25hbWUiOiJraGFuIiwiZW1haWwiOiJrZmFpc2FsQGdpZ2dzby5jb20ifQ.QnWucFr5sX8mD4hsqGX0kupvoKtOvvZOCTQ0aI89dKSRZmfa5mQ93TML2I17TUleAVrgeH7YMXOOoIxIHcKdUBd4WUE54DI5Y-kW_OVKjY6MpVTKYyQcT4KtWBeS0xERpgCPAR17qcYSSIzDWm0C746gKE056rY6Aqf3hd64apZTfmxYUhj7vnKw2UclZ2rTNHk1FKlmaN8fRCDF9_qeeoLmltMqlGaipgNXk0YTQn5p0WRMO2VM1y2Otn2jwk_CPsFzCILcLNYSUVbuqpWGtFGt_zCl8d0siBKr7k9IBip5yhSvOAEYnJIkSiohJ1yK6sJr25yLJ1gv9oxfTSx-_A" 
-         image: giggsodocker/capacityjob-api-uat
-        #image: giggsodocker/capacity-k8
+         image: giggsodocker/capacityjob-api
          name: jobapi
          resources:
            requests:

@@ -31,8 +31,7 @@ spec:
            value: elastic
          - name: ES_PASS
            value: changeme
-        #image: datatrine/logstash_dts:5.5.2
-        image: giggsodocker/capacity-jobchecker-uat
+        image: giggsodocker/capacity-jobchecker
         imagePullPolicy: "Always"
         name: jobchecker
         resources:

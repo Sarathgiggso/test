@@ -22,7 +22,6 @@ spec:
       - env:
         - name: ELASTICSEARCH_URL
           value: 'http://elasticsearch:9200'
-          #value: 'http://10.4.0.4:7201'
         - name: ES_USER
           value: elastic
         - name: ES_PASS
@@ -45,8 +44,7 @@ spec:
           value: default
         - name: TRINO_KAFKA_CATALOG
           value: kafka
-        image: giggsodocker/giggso-aiml-rca-uat
-        #giggsodocker/giggso-aiml-rca
+        image: giggsodocker/giggso-aiml-rca
         name: giggso-aiml-rca
         resources:
           requests:

@@ -19,8 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - image: giggsodocker/giggso-nclogaggregator-uat
-        #giggsodocker/giggso-nclogaggregator
+      - image: giggsodocker/giggso-nclogaggregator
         name: giggso-nclogaggregator
         resources:
           requests:

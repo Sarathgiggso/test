@@ -19,8 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - image: giggsodocker/giggso-enrichdata-uat
-        #giggsodocker/giggso-enrichdata
+      - image: giggsodocker/giggso-enrichdata
         name: giggso-enrichdata
         resources:
           requests:

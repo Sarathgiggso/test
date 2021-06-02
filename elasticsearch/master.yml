@@ -55,9 +55,7 @@ secretMounts: []
 #    path: /usr/share/elasticsearch/config/certs
 #    defaultMode: 0755
 
-image: giggsodocker/giggso-elastic-uat
-#giggsodocker/giggso-elastic-prod
-#giggsodocker/elasticsearch
+image: giggsodocker/elasticsearch
 imageTag: latest
 imagePullPolicy: "Always"
 

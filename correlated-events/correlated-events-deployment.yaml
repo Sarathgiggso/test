@@ -45,8 +45,7 @@ spec:
         - name: TRINO_KAFKA_CATALOG
           value: kafka
 
-        image: giggsodocker/giggso-aiml-correlated-uat
-        #giggsodocker/correlated-events
+        image: giggsodocker/giggso-aiml-correlated
         name: correlated-events
         resources:
           requests:

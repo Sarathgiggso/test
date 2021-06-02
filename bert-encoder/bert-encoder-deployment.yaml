@@ -19,8 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - image: giggsodocker/giggso-bert-encoder-uat
-        #giggsodocker/bert-encoder
+      - image: giggsodocker/giggso-bert-encoder
         name: bert-encoder
         resources:
           requests:

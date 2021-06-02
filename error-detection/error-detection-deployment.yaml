@@ -41,8 +41,7 @@ spec:
           value: 'trino'
         - name: TRINO_PORT
           value: '8080'
-        image: giggsodocker/errordetection-uat
-        #giggsodocker/error-detection
+        image: giggsodocker/errordetection
         name: error-detection
         resources:
           requests:

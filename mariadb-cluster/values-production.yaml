@@ -18,8 +18,7 @@ global:
 ##
 image:
   registry: docker.io
-  repository: giggsodocker/giggso-mariadb-prod
-  #giggsodocker/mariadb-k8
+  repository: giggsodocker/mariadb-k8
   tag: latest
   #tag: 1.4.0
   ## Specify a imagePullPolicy

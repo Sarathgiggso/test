@@ -26,8 +26,7 @@ spec:
            value: domainname:30920
          - name: PACKET_ENDPOINT
            value: domainname:30920  
-           #value: http://ggdev.giggso.com:30920
-        image: giggsodocker/giggso-log-ingestion-uat
+        image: giggsodocker/giggso-log-ingestion
         imagePullPolicy: "Always"
         name: capacityjob
         resources:

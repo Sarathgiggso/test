@@ -19,8 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - image: giggsodocker/giggso-webpush-uat
-        #giggsodocker/giggso-webpush
+      - image: giggsodocker/giggso-webpush
         name: giggso-webpush
         resources:
           requests:

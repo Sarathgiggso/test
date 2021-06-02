@@ -23,7 +23,6 @@ spec:
         - name: LS_JAVA_OPTS
           value: -Xmx256m -Xms256m
         image: giggsodocker/audit-trail-k8
-        #image: giggsodocker/audit-trail-k8-uat
         imagePullPolicy: "Always"
         name: logstash-at
         ports:

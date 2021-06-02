@@ -19,8 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - image: giggsodocker/ask-giggso-uat
-        #giggsodocker/ask-giggso
+      - image: giggsodocker/ask-giggso
         name: ask-giggso
         resources:
           requests:
