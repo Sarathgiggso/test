@@ -124,6 +124,9 @@ spec:
             secretKeyRef:
               name: azure-blob-access
               key: access-key
+        - name: JAVA_OPTS
+          value: "-Djava.io.tmpdir=/tmp"
+
         ports:
         - containerPort: 8080
 #        env:
@@ -183,7 +186,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 8Gi
+          storage: 64Gi
 ---
 apiVersion: v1
 kind: Pod

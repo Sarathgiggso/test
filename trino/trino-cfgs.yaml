@@ -6,7 +6,7 @@ metadata:
 data:
   jvm.config: |-
     -server
-    -Xmx16G
+    -Xmx32G
     -XX:-UseBiasedLocking
     -XX:+UseG1GC
     -XX:G1HeapRegionSize=32M
@@ -31,9 +31,9 @@ data:
   config.properties.worker: |-
     coordinator=false
     http-server.http.port=8080
-    query.max-memory=200GB
-    query.max-memory-per-node=10GB
-    query.max-total-memory-per-node=10GB
+    query.max-memory=32GB
+    query.max-memory-per-node=16GB
+    query.max-total-memory-per-node=20GB
     query.max-stage-count=200
     task.writer-count=4
     discovery.uri=http://trino:8080

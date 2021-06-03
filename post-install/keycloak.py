@@ -6,7 +6,7 @@ textToSearch = "keycloakkey"
 
 textToReplace = sys.argv[1]
 
-fileToSearch = './web/keycloak_json_configmap.yaml'
+fileToSearch = '../web/keycloak_json_configmap.yaml'
 
 tempFile = open( fileToSearch, 'r+' )
 
