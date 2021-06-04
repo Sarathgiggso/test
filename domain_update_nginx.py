@@ -10,12 +10,12 @@ os.path.join(CWD,"nginx","docker-compose.yaml")]
 
 print("Please Make sure you are running this script with python 3")
 
-giggso_domain_old = ggdev.giggso.com 
+giggso_domain_old = 'ggdev.giggso.com' 
 
 print ("New Giggso Domain:")
 giggso_domain_new = input( "> " )
 
-kc_domain_old = ggdevkc.giggso.com 
+kc_domain_old = 'ggdevkc.giggso.com' 
 
 print ("New Giggso keycloak Domain:")
 kc_domain_new = input( "> " )
