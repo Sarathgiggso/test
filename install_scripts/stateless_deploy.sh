@@ -1,3 +1,5 @@
+cd ../
+
 echo Installing Giggso core services
 # to deploy php service
 kubectl apply -f ./php/

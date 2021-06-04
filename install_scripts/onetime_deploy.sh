@@ -1,6 +1,8 @@
-cd ..;
+
 echo Installing helm
 ./get_helm.sh --version v3.2.4
+
+cd ..;
 
 #To configure docker hub password to pull images from private repo
 echo creating docker hub credentials as secret
