@@ -10,7 +10,7 @@ read res_group
 echo "Is this existing storage account(type yes/no): "  
 read flag  
 
-if [[ $flag == "yes" ]]; then
+if [[ $flag == "no" ]]; then
      az storage account create --name $storage_name --resource-group $res_group --kind StorageV2
      echo " storageaccount $storage_name created"
 fi
