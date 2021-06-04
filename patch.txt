@@ -1,7 +1,0 @@
-git checkout -- trino/metastore-cfg.yaml
-git checkout -- trino/trino-cfgs.yaml
-git checkout -- AzUpload/azupload-config.yaml
-git checkout -- trino/schema_creation.sh
-
-cd install_scripts/
-./trino_storage_info.sh $storage_name $secret
