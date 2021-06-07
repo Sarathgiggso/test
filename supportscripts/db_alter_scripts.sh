@@ -1,1 +1,1 @@
-docker exec -i mariadb mysql -u root -proot giggso < $1
+kubectl exec -i mariadb-0 mysql -u root -proot giggso < $1
