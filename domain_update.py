@@ -1,3 +1,6 @@
+#This script is to update the proper domain names in the respective files.
+#Inputs for this script will be giggso app domain name and keycloak domain name
+
 import os
 import fileinput
 
@@ -12,12 +15,12 @@ os.path.join(CWD,"cert_manager","helm","cert-manager","tls-ss.yaml")]
 
 print("Please Make sure you are running this script with python 3")
 
-giggso_domain_old = 'ggdev.giggso.com'
+giggso_domain_old = 'appdomain'
 
 print ("New Giggso Domain:")
 giggso_domain_new = input( "> " )
 
-kc_domain_old = 'ggdevkc.giggso.com'
+kc_domain_old = 'kcdomain'
 
 print ("New Giggso keycloak Domain:")
 kc_domain_new = input( "> " )
@@ -33,3 +36,5 @@ with fileinput.input(files = filelist , inplace=True) as f:
             if f_key in line:
                 line = line.replace(f_key, f_value)
         print(line)
+
+print ("Domain names are updated")

@@ -1,5 +1,6 @@
-
-
+#---------------use this script with caution------------------------
+#This script will deploy all the statefulsets services
+#This execution might lead to data loss
 cd ..;
 
 helm delete nfs-giggso 

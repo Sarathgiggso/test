@@ -13,12 +13,12 @@ spec:
         # adding tls secret for the domains mentioned
   tls:
     - hosts:
-      - ggdev.giggso.com
-      - ggdevkc.giggso.com
+      - appdomain
+      - kcdomain
       secretName: test-cert-tls
   rules:
           # routing to keycloak service based on host
-  - host: ggdevkc.giggso.com
+  - host: kcdomain
     http:
       paths:
       - path: /
@@ -26,7 +26,7 @@ spec:
           serviceName: keycloak
           servicePort: 8080
         # routing to  the services based on host and path
-  - host: ggdev.giggso.com
+  - host: appdomain
     http:
       paths:
         # to PHP Service
