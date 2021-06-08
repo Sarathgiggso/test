@@ -19,6 +19,9 @@ else
             helm upgrade -i giggso-mariadb mariadb-cluster -f ./mariadb-cluster/values-production.yaml --recreate-pods 
 	elif [[ $1 == "neo4j" ]]; then
 	    helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml --namespace nginx-ingress --recreate-pods
+	elif [[ $1 == "kafka" ]]; then
+	    helm upgrade -i zookeeper-cluster zookeeper -f ./zookeeper/values.yaml --recreate-pods
+            helm upgrade -i kafka-cluster kafka -f ./kafka/values.yaml --recreate-pods
     	else
             kubectl rollout restart deploy $1
 	fi

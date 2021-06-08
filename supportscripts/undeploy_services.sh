@@ -1,18 +1,17 @@
+cd ../
 # to delete mariadb cluster
 helm delete giggso-mariadb
 #(cd ./docker-mariadb;
 
 #docker-compose down)
-
+helm delete kafka-cluster
+helm delete zookeeper-cluster
 # to delete elasticsearch cluster
   # To delete master node
 helm delete es-master 
  # To delete data node
 helm delete es-giggsodata 
   # To delete master node
-helm delete es-ingest
- # To delete data node
-helm delete es-client
 
 #to delete neo4j
 helm delete neo4j -n nginx-ingress
@@ -52,8 +51,6 @@ kubectl delete -f ./audit_trail/
 
 # to undeploy rule engine service
 kubectl delete -f ./ruleengine/
-#to deploy kafka
-kubectl delete -f ./kafka/
 
 #to deploy trino
 kubectl delete -f ./trino/

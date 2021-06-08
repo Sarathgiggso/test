@@ -1,5 +1,5 @@
 #!/bin/bash  
-  
+#This script will get input from user and create an storage for trino and update the values in the respective files  
 # Read the user input   
 echo "Please make sure az login done in this server"
 
@@ -23,5 +23,8 @@ echo "$secret"
 echo "secrets retrieved. Please keep a note of them for deploying in cluster"
 echo "Creating kubernetes secret"
 kubectl create secret generic azure-blob-access --from-literal=storage-account='$storage_name' --from-literal=access-key='$secret'
+if [ -n "$secret" ];
+then
+   ./trino_storage_info.sh $storage_name $secret
+fi
 
-./trino_storage_info.sh $storage_name $secret

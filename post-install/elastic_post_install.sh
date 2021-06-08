@@ -1,4 +1,5 @@
 #!/bin/bash
+#Run the elastic dump scripts and alter scripts using curl commands
 var=$(kubectl get nodes -o wide  | grep "elastic")
 set -- $var
 cd ../elasticdump_script

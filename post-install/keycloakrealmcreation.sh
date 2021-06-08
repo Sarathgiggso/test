@@ -1,4 +1,5 @@
 #!/bin/bash
+#This script will generate the realm key from keycloak and update in the jboss configmap
 var=$(kubectl get pods | grep "keycloak")
 set -- $var
 

@@ -1,7 +1,8 @@
 #!/bin/bash
+#This script install the java and run the kafka topic creation scripts with proper input values
 var=$(kubectl get nodes -o wide  | grep "kafka")
 set -- $var
-
+sudo apt install openjdk-11-jre-headless
 java -jar KafkaTopicCretaion.jar 5 $6:30162
 
 cd ../kafka-client/

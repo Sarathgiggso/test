@@ -1,3 +1,4 @@
+#This script will insert the trino storage name and secret in the necessary files`
 sed -i 's/storageaccountname/$1/g' ../trino/metastore-cfg.yaml
 sed -i 's/storageaccesskey/$2/g' ../trino/metastore-cfg.yaml
 sed -i 's/storageaccountname/$1/g' ../trino/trino-cfgs.yaml

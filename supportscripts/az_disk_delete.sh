@@ -1,4 +1,7 @@
 #!/bin/bash
+#This script will pull the IDs of PVs which are in released state and delete them from the azure portal
+#this needs az login to be done on the VM for succesful execution 
+#Also It needs Resource group as input 
 kubectl get pv | grep Released | awk '{print $1}' > pvc_list
 echo "This script will find the released PVs from cluster and delete the respective disks from portal"
 echo "Please exit if you dont want to lose the disks with data"
