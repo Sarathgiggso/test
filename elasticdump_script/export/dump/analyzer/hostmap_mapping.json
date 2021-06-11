@@ -1,1 +1,0 @@
-{"hostmap":{"mappings":{"properties":{"group_id":{"type":"long"},"host_name":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}}}}}}

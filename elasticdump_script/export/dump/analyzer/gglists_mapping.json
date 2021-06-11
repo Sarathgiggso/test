@@ -1,1 +1,0 @@
-{"gglists":{"mappings":{"properties":{"listName":{"type":"text"},"members":{"type":"text","analyzer":"a5"},"resourceId":{"type":"text","analyzer":"a4"}}}}}
