@@ -8,9 +8,10 @@ keycloakkey=$(cat keycloakkeys.json |jq -r '.keys' | jq -r ".[] | .publicKey"|gr
 sudo python keycloak.py $keycloakkey
 kubectl apply -f ../web/keycloak_json_configmap.yaml
 
+sudo ./web_image_copy.sh
+
 kubectl rollout restart deploy web
 
-sudo ./web_image_copy.sh
 
 echo "creating schemas through trino"
 (cd ../trino;

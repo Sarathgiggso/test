@@ -31,7 +31,7 @@ helm upgrade -i es-giggsodata elasticsearch -f ./elasticsearch/giggsodata.yml
 sleep 2m
 # To create master nodegroup
 helm upgrade -i es-master elasticsearch -f ./elasticsearch/master.yml
-kubectl apply -f elasticsearch/rollover-deployment.yaml
+#kubectl apply -f elasticsearch/rollover-deployment.yaml
  # To create neo4j node
 #helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml
 echo Installing Neo4j
@@ -42,7 +42,7 @@ helm upgrade -i neo4j neo4j-community -f ./neo4j-community/values.yaml --namespa
 echo Installing monitoring services
 helm repo add prometheus-community    https://prometheus-community.github.io/helm-charts
 kubectl create namespace monitoring
-helm upgrade -i --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml --version 13.10.0
+helm install --namespace monitoring kops-cluster-monitoring prometheus-community/kube-prometheus-stack  -f ./kube-prometheus-stack/values.yaml --version 13.10.0
 
 sleep 5m
 

@@ -27,7 +27,6 @@ helm delete neo4j
 
 # To install monitoring service
 echo Installing monitoring services
-helm repo add prometheus-community    https://prometheus-community.github.io/helm-charts
 kubectl delete namespace monitoring
 helm delete kops-cluster-monitoring 
 

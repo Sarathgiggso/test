@@ -16,7 +16,7 @@ data:
     ########## Trino Config ###############
     TRINO_JDBC_DRIVER=io.trino.jdbc.TrinoDriver
     TRINO_BASE_URL=jdbc:trino://trino:8080/hive/logs?user=test
-
+    HIVE_TABLE=hive.logsorc.gglogs
     #######################################
     ########## MariaDB Config ###############
     DB_DRIVER=org.mariadb.jdbc.Driver

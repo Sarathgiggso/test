@@ -1,5 +1,5 @@
 #List of indices
-index_file=".env"
+index_file=".env_data"
 while read line; do
         echo "Processing index:${1}/${line}"       
 	sudo docker run --network host -v "${2}":/home --rm -t  taskrabbit/elasticsearch-dump \
