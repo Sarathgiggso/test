@@ -11,7 +11,9 @@ CWD = os.path.dirname(os.path.realpath(__file__))
 filelist = [os.path.join(CWD,"ingress","ingress-gateway.yaml"),  
 os.path.join(CWD,"angular","env-configmap.yaml"), 
 os.path.join(CWD,"web","jboss_external_config_configmap.yaml"),
-os.path.join(CWD,"cert_manager","helm","cert-manager","tls-ss.yaml")]
+os.path.join(CWD,"cert_manager","helm","cert-manager","tls-ss.yaml"),
+os.path.join(CWD,"web","keycloak_json_configmap.yaml"),
+os.path.join(CWD,"keycloak","keycloak-configmap.yaml")]
 
 print("Please Make sure you are running this script with python 3")
 

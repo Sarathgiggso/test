@@ -4,7 +4,7 @@ data:
     {
      "realm": "giggso",
      "bearer-only": true,
-     "auth-server-url": "https://ggdevkc.giggso.com/auth",
+     "auth-server-url": "https://kcdomain/auth",
     "realm-public-key": "keycloakkey",
     "ssl-required": "none",
      "resource": "giggso-services",

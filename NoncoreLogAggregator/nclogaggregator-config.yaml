@@ -20,7 +20,7 @@ data:
     #######################################
     ########## MariaDB Config ###############
     DB_DRIVER=org.mariadb.jdbc.Driver
-    DB_BASE_URL=jdbc:mariadb://10.4.0.7:3306/giggso?user=root&password=root
+    DB_BASE_URL=jdbc:mariadb://giggso-mariadb:3306/giggso?user=root&password=root
 
 kind: ConfigMap
 metadata:

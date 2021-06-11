@@ -14,6 +14,10 @@ data:
     SOURCE_HOST_PASSWORD=changeme
     SOURCE_HOST_CONNECTION_TIMEOUT=100
     CLUSTER_NAME=docker-cluster
+    KAFKA_FETCH_ROW_COUNT=10000
+    UPLOAD_FILE_FORMAT=orc
+    UPLOAD_FILE_COMPRESSION_CODEC=zlib
+    UPLOAD_FILE_MIN_SIZE=500
 
     ##########################################################################################################
 

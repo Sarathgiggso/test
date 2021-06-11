@@ -22,7 +22,6 @@ spec:
       - env:
         - name: ELASTICSEARCH_URL
           value: 'http://elasticsearch:9200'
-          #value: 'http://10.4.0.4:7201'
         - name: TRINO_CATALOG
           value: 'kafka'
         - name: TRINO_SCHEMA

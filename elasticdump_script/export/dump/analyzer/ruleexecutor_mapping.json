@@ -1,1 +1,1 @@
-{"ruleexecutor":{"mappings":{}}}
+{"ruleexecutor":{"mappings":{"properties":{"lastProcessedTime":{"type":"date"}}}}}

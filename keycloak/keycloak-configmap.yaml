@@ -519,10 +519,10 @@ data:
           "clientAuthenticatorType": "client-secret",
           "secret": "**********",
           "redirectUris": [
-            "http://{{domain}}/*"
+            "https://appdomain/*"
           ],
           "webOrigins": [
-            "http://{{domain}}"
+            "https://appdomain"
           ],
           "notBefore": 0,
           "bearerOnly": false,
