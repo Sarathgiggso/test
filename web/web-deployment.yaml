@@ -48,7 +48,7 @@ spec:
           value: ' true'
         - name: LC_ALL
           value: en_US.UTF-8
-        image: giggsodocker/giggso-backend-aa 
+        image: giggsodocker/giggso-backend-chl 
         name: kube-ping
         imagePullPolicy: "Always"
         name: wildfly

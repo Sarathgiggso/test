@@ -85,11 +85,11 @@ spec:
           configMap:
             name: trino-configs
       nodeSelector:
-        dedicated_label: coordinator
+        dedicated_label: trinomaster
       tolerations:
         - key: "dedicated_label"
           operator: "Equal"
-          value: "coordinator"
+          value: "trinomaster"
           effect: "NoSchedule"
 
 ---
