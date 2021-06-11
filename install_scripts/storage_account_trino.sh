@@ -15,7 +15,7 @@ if [[ $flag == "no" ]]; then
      echo " storageaccount $storage_name created"
 fi
 echo "container creating"
-az storage container create -n gglogspt  --account-name $storage_name
+az storage container create -n gglogs  --account-name $storage_name
 echo "container for trino created"
 echo "receiving access keys"
 secret=$(az storage account keys list -g $res_group -n $storage_name | grep -o '"value": "[^"]*' | grep -m 1 -o '[^"]*$')
