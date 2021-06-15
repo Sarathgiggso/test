@@ -6,7 +6,7 @@ data:
 
     KAFKA_BOOTSTRAP_SERVER=kafka-cluster:9092
     BLOB-CONNECTION=DefaultEndpointsProtocol=https;AccountName=storageaccountname;AccountKey=storageaccesskey;EndpointSuffix=core.windows.net
-    BLOB-CONTAINER-NAME=gglogspt
+    BLOB-CONTAINER-NAME=gglogs
     SOURCE_SCHEMA=http
     SOURCE_HOST=elasticsearch
     SOURCE_PORT=9300

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: ksql-cli
+  name: ksql-cli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: ksql-cli
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: ksql-cli
+    spec:
+      containers:
+      - image: confluentinc/ksqldb-cli:0.18.0
+        tty: true
+        command: ["/bin/bash"]
+        imagePullPolicy: "IfNotPresent"
+        name: ksql-cli
+      restartPolicy: Always
+
