@@ -14,6 +14,9 @@ curl -X PUT "$6:30920/%3Cgglogs_%7Bnow%2Fd%7D-1%3E" -H 'Content-Type: applicatio
     "gglogs": {}
   }
 }'
+
+curl -XPUT "http://$6:30920/_template/gglogs?pretty" -d@gglogs_template.json -H 'Content-Type: application/json'
+
 #deploying rollover
 kubectl apply -f ../elasticsearch/es-rollover-cfg.yaml
 kubectl apply -f ../elasticsearch/rollover-deployment.yaml
