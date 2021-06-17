@@ -13,7 +13,8 @@ os.path.join(CWD,"angular","env-configmap.yaml"),
 os.path.join(CWD,"web","jboss_external_config_configmap.yaml"),
 os.path.join(CWD,"cert_manager","helm","cert-manager","tls-ss.yaml"),
 os.path.join(CWD,"web","keycloak_json_configmap.yaml"),
-os.path.join(CWD,"keycloak","keycloak-configmap.yaml")]
+os.path.join(CWD,"keycloak","keycloak-configmap.yaml"),
+os.path.join(CWD,"log-ingestion","log-ingestion-deployment.yaml")]
 
 print("Please Make sure you are running this script with python 3")
 

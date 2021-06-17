@@ -21,11 +21,11 @@ spec:
       containers:
       - env:
          - name: LOG_ENDPOINT
-           value: domain-name:5044
+           value: appdomain:5044
          - name: METRIC_ENDPOINT
-           value: domainname:30920
+           value: appdomain:30920
          - name: PACKET_ENDPOINT
-           value: domainname:30920  
+           value: appdomain:30920  
         image: giggsodocker/giggso-log-ingestion
         imagePullPolicy: "Always"
         name: capacityjob

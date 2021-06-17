@@ -20,21 +20,6 @@ data:
 
     mail.from=alerts@giggso.com
 
-    #OKTA ENDPOINTS
-
-    okta.api.key = 00S5CXmrVKW_-XmrzCqzBHZGXv-9KdwTu4Gd8suG9f
-
-    okta.endpoint.user.fetch = https://chl-uat.oktapreview.com/api/v1/users/
-
-    okta.endpoint.reset.password.initiate = https://chl-uat.oktapreview.com/api/v1/authn/recovery/password
-
-    okta.endpoint.reset.password.statetoken = https://chl-uat.oktapreview.com/api/v1/authn/recovery/token
-
-    okta.endpoint.reset.password.securityQuestion = https://chl-uat.oktapreview.com/api/v1/authn/recovery/answer
-
-    okta.endpoint.reset.password = https://chl-uat.oktapreview.com/api/v1/authn/credentials/reset_password
-
-    okta.endpoint.unlock.password.initiate = https://chl-uat.oktapreview.com/api/v1/authn/recovery/unlock
 
     #Servicenow KB Endpoints
 
