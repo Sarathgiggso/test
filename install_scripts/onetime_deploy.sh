@@ -50,6 +50,9 @@ sleep 5m
 helm upgrade -i zookeeper-cluster zookeeper -f ./zookeeper/values.yaml 
 helm upgrade -i kafka-cluster kafka -f ./kafka/values.yaml 
 
+#to deploy ksqldb
+helm upgrade -i gg-ksqldb ksqldb -f ./ksqldb/values.yaml
+kubectl apply -f ksql-client/ksql-cli.yaml
 
 #to deploy trino
 kubectl apply -f ./trino/

@@ -58,7 +58,7 @@ echo Deploying nginx ingress controller
 # to deploy logstash service
 #kubectl create configmap logstash-pipeline --from-file=./logstash/logstash.conf --namespace=nginx-ingress
 #kubectl apply -f ./logstash/
-
+kubectl apply -f elasticsearch/rollover-deployment.yaml
 # to deploy ruleengine service
 kubectl apply -f ./ruleengine/
 

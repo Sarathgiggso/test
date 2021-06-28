@@ -5,11 +5,12 @@ metadata:
   labels:
     {{- include "ksqldb.labels" . | nindent 4 }}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: tcp
     port: {{ .Values.port }}
     protocol: TCP
     targetPort: tcp
+    nodePort: 30088
   selector:
     {{- include "ksqldb.selectorLabels" . | nindent 4 }}

@@ -3,7 +3,8 @@
 var=$(kubectl get nodes -o wide  | grep "kafka")
 set -- $var
 sudo apt install openjdk-11-jre-headless
-java -jar KafkaTopicCretaion.jar 5 $6:30162
+#java -jar KafkaTopicCretaion.jar 5 $6:30162
+run_kafka_topics_streams.sh
 
 cd ../kafka-client/
 ./bin/kafka-topics.sh --create --bootstrap-server  $6:30162 --replication-factor 1 --partitions 5 --topic gglograwdata

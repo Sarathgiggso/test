@@ -1,0 +1,40 @@
+---
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: trino-sync-scripts
+data:
+  trino-sync.sh: |
+    set -e
+    
+    TABLES=$(trino --server trino:8080 --catalog hive --schema logs --execute "SHOW TABLES;" | sed s/\"//g)
+    for i in $TABLES; do
+      echo $i
+      trino --server trino:8080 --catalog hive --execute "CALL system.sync_partition_metadata(schema_name=>'logs', table_name=>'$i', mode=>'FULL');"
+    done
+    echo "Done"
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cron-trino-sync
+spec:
+  schedule: "0 1 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: trino-timed-worker
+              image: trinodb/trino:352 #joshuarobinson/trino-cli
+              command: ["sh", "-c", "--"]
+              args: ["bash /opt/trino-sync.sh"]
+              volumeMounts:
+              - name: trino-scripts-vol
+                mountPath: /opt/trino-sync.sh
+                subPath: trino-sync.sh
+          volumes:
+          - name: trino-scripts-vol
+            configMap:
+              name: trino-sync-scripts
+          restartPolicy: OnFailure
