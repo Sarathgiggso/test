@@ -19,7 +19,7 @@ kind: CronJob
 metadata:
   name: cron-trino-sync
 spec:
-  schedule: "0 1 * * *"
+  schedule: "0 1,7,13,19 * * *"
   jobTemplate:
     spec:
       template:
