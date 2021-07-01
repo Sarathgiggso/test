@@ -23,7 +23,7 @@ spec:
         - bash
         - -c
         - /usr/sbin/apache2ctl -D FOREGROUND
-        image: giggsodocker/giggso-app-plugin-chl
+        image: giggsodocker/giggso-app-plugin
         #giggsodocker/php-k8
         imagePullPolicy: "Always"
         name: php

@@ -20,7 +20,7 @@ spec:
       - name: docker-secret
       containers:
       - name: angular
-        image: giggsodocker/giggso-fe-chl
+        image: giggsodocker/giggso-fe
         imagePullPolicy: "Always"
         ports:
         - containerPort: 80

@@ -49,7 +49,7 @@ spec:
           value: "WARN"
         - name: ROOT_LOGLEVEL
           value: "WARN"
-        image: giggsodocker/giggso-keycloak-chl
+        image: giggsodocker/giggso-keycloak
         imagePullPolicy: "Always"
         name: keycloak-mariadb
         ports:
