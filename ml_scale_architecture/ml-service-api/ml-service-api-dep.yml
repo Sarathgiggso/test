@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: ml-service-api
+  name: ml-scale-ml-service-api
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service:  ml-service-api 
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: ml-service-api 
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+       - env:
+         - name: ML_SCALE_INDEX
+           value: ml-scale
+         - name: ELASTICSEARCH_URL
+           value: http://elasticsearch:9200
+         - name: NAMESPACE
+           value: ml-scale
+         image: giggsodocker/ml-scale-ml-scale-service-api-uat
+         name: ml-scale-ml-service-api
+         ports:
+          - containerPort: 8080
+         resources:
+           requests:
+             cpu: "200m"
+             memory: "400Mi"
+           limits:
+             cpu: "350m"
+             memory: "500Mi"
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+      serviceAccountName: ""
+
+

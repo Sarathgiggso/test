@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: ml-scale-inference
+  name: ml-scale-inference
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: ml-scale-inference
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: ml-scale-inference
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+       - env:
+         - name: ML_SCALE_INDEX
+           value: ml-scale
+         - name: ELASTICSEARCH_URL
+           value: http://elasticsearch:9200
+         - name: NUMBER_WORKERS
+           value: 20
+         - name: NAMESPACE
+           value: ml-scale
+         - name: PODNAME:
+           value: ml-scale-inference-1
+         
+         image: giggsodocker/ml-scale-inference-uat
+         name: ml-scale-inference
+         resources:
+           requests:
+             cpu: "200m"
+             memory: "400Mi"
+           limits:
+             cpu: "350m"
+             memory: "500Mi"
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+      serviceAccountName: ""
+
+

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: ml-scale-scheduler
+  name: ml-scale-scheduler
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: ml-scale-scheduler 
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: ml-scale-scheduler 
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+       - env:
+         - name: ML_SCALE_INDEX
+           value: ml-scale
+         - name: ELASTICSEARCH_URL
+           value: http://elasticsearch:9200
+         - name: NAMESPACE
+           value: ml-scale
+
+         image: giggsodocker/ml-scale-scheduler-uat
+         name: ml-scale-scheduler
+         resources:
+           requests:
+             cpu: "200m"
+             memory: "400Mi"
+           limits:
+             cpu: "350m"
+             memory: "500Mi"
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+      serviceAccountName: ""
+
+

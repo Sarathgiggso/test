@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: ml-scale- scaler-joballocator
+  name: ml-scale-scaler-joballocator
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: ml-scale- scaler-joballocator
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: ml-scale- scaler-joballocator
+    spec:
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+       - env:
+         - name: ML_SCALE_INDEX
+           value: ml-scale
+         - name: ELASTICSEARCH_URL
+           value: http://elasticsearch:9200
+         - name: NUMBER_WORKER
+           value: 20
+         - name: NAMESPACE
+           value: ml-scale
+         - POD_LIMIT:
+           value: 20
+         image: giggsodocker/ml-scale-scaler-joballocator-uat
+         name: scaler-job-allocator
+         resources:
+           requests:
+             cpu: "200m"
+             memory: "400Mi"
+           limits:
+             cpu: "350m"
+             memory: "500Mi"
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
+      serviceAccountName: ""
+
+
