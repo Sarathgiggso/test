@@ -19,9 +19,6 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-<<<<<<< HEAD
-      - image: giggsodocker/giggso-errordetector-uat
-=======
       - env:
         - name: ELASTICSEARCH_URL
           value: 'http://elasticsearch:9200'
@@ -44,24 +41,23 @@ spec:
         - name: TRINO_PORT
           value: '8080'
         image: giggsodocker/errordetection
->>>>>>> e51b1ed69381f05bef3448b05f81a9b81d926fe4
         name: error-detection
         resources:
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "1Gi"
           limits:
             cpu: "450m"
-            memory: "4Gi"
-        volumeMounts:
-        - mountPath: /giggsoaccess.properties
-          subPath: giggsoaccess.properties
-          name: errordetection-config
-          readOnly: true
+            memory: "2Gi"
+        ports:
+        - containerPort: 8202
+          #- containerPort: 2222
       restartPolicy: Always
-      volumes:
-      - name: errordetection-config
-        configMap:
-          name: errordetection-config
-
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
 

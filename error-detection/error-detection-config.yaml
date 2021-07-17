@@ -1,0 +1,37 @@
+apiVersion: v1
+data:
+  giggsoaccess.properties: |
+    ##########################################################################################################
+    ###### Elastic Search Source Configuration ###############################################################
+
+    KAFKA_BOOTSTRAP_SERVER=kafka-cluster:9092
+    SOURCE_SCHEMA=http
+    SOURCE_HOST=elasticsearch
+    SOURCE_PORT=9300
+    SOURCE_HOST_USERNAME=elastic
+    SOURCE_HOST_PASSWORD=changeme
+    SOURCE_HOST_CONNECTION_TIMEOUT=100
+    CLUSTER_NAME=docker-cluster
+
+    ########## KSQL Config #########
+    KSQLDB_SERVER_HOST=ksqldb
+    KSQLDB_SERVER_HOST_PORT=8089
+
+    ########## KSQL Special Criteria #########
+    ERROR_SPECIAL_KSQL_CLAUSE=(lcase(feedText) like '%error%') and (lcase(feedText) not like '%0x0%')
+
+    ########## ERROR Terms #########
+    ERROR_TERMS=stderr,exception,fail,disconnect,severe,failed,fatal,abort
+    
+    ########## Kafka Config ###############
+    KAFKA_BASE_URL=kafka-cluster
+    KAFKA_PORT=9092
+
+
+
+    
+
+kind: ConfigMap
+metadata:
+  name: azupload-config
+
