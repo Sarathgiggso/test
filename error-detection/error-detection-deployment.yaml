@@ -19,32 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-<<<<<<< HEAD
       - image: giggsodocker/giggso-errordetector-uat
-=======
-      - env:
-        - name: ELASTICSEARCH_URL
-          value: 'http://elasticsearch:9200'
-        - name: TRINO_CATALOG
-          value: 'kafka'
-        - name: TRINO_SCHEMA
-          value: 'default'
-        - name: TIME_INDEX
-          value: 'ggprocessess'
-        - name: KAFKA_ADDRESS
-          value: 'kafka-cluster:9092'
-        - name: TRINO_TABLE
-          value: 'gglogs'
-        - name: KAFKA_TOPIC_ERROR
-          value: 'ggerrors'
-        - name: KAFKA_TOPIC_NON_ERROR
-          value: 'ggerrorprocessed'
-        - name: TRINO_URL
-          value: 'trino'
-        - name: TRINO_PORT
-          value: '8080'
-        image: giggsodocker/errordetection
->>>>>>> e51b1ed69381f05bef3448b05f81a9b81d926fe4
         name: error-detection
         resources:
           requests:
