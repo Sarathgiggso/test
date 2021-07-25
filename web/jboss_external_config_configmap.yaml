@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   external_config.properties: |
 
-    applicationDownloadPath = https://ggdev.giggso.com/staticFiles/
+    applicationDownloadPath = https://appdomain/staticFiles/
 
     applicationUploadPath = /opt/jboss/wildfly/standalone/giggso_attachments/
 
@@ -20,21 +20,6 @@ data:
 
     mail.from=alerts@giggso.com
 
-    #OKTA ENDPOINTS
-
-    okta.api.key = 00S5CXmrVKW_-XmrzCqzBHZGXv-9KdwTu4Gd8suG9f
-
-    okta.endpoint.user.fetch = https://chl-uat.oktapreview.com/api/v1/users/
-
-    okta.endpoint.reset.password.initiate = https://chl-uat.oktapreview.com/api/v1/authn/recovery/password
-
-    okta.endpoint.reset.password.statetoken = https://chl-uat.oktapreview.com/api/v1/authn/recovery/token
-
-    okta.endpoint.reset.password.securityQuestion = https://chl-uat.oktapreview.com/api/v1/authn/recovery/answer
-
-    okta.endpoint.reset.password = https://chl-uat.oktapreview.com/api/v1/authn/credentials/reset_password
-
-    okta.endpoint.unlock.password.initiate = https://chl-uat.oktapreview.com/api/v1/authn/recovery/unlock
 
     #Servicenow KB Endpoints
 
@@ -48,9 +33,9 @@ data:
 
     servicenow.post.url =  http://php:80/servicenow/index.php?task=create&table=incident&instance=
 
-    socketio.url = https://ggdev.giggso.com/realtime
+    socketio.url = https://appdomain/realtime
 
-    route.base.url = https://ggdev.giggso.com/router?pageTo=
+    route.base.url = https://appdomain/router?pageTo=
 
     beats.url =  http://giggso-logingestion:5000/FetchConfiguration
 
@@ -75,19 +60,19 @@ data:
     askgiggso.correlated.event = http://correlated-events:8203/rca/correlatedEvents
 
     askgiggso.timeline.analysis = http://giggso-aiml-rca:8202/rca/getTimelineDetails
-    
-    BOOTSTRAP-SERVER = kafka-cluster:9092 
+
+    BOOTSTRAP-SERVER = kafka-cluster:9092
 
     TRINO_JDBC_DRIVER=io.trino.jdbc.TrinoDriver
-        
+
     TRINO_JDBC_BASE_URL=jdbc:trino://trino:8080/kafka/default
 
     TRINO_KAFKA_USER=test
-    
+
     credentialmgmt.vault.token =
-    
+
     credentialmgmt.kv.post =
-    
+
     credentialmgmt.kv.delete =
 
 kind: ConfigMap

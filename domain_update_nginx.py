@@ -1,25 +1,26 @@
+#This script is to update the proper domain names in the respective files.
+#Inputs for this script will be giggso app domain name and keycloak domain name
 import os
 import fileinput
 
 CWD = os.path.dirname(os.path.realpath(__file__))
 
-#filelist = [os.path.join(CWD, file) for file in filelist] 
-# will give full path for all the items in the list
-filelist = [os.path.join(CWD,"nginx","nginx.conf"),
-os.path.join(CWD,"nginx","docker-compose.yaml")]
+# This will give full path for all the items in the list
+#filelist = [os.path.join(CWD,"nginx","nginx.conf"),
+#os.path.join(CWD,"nginx","docker-compose.yaml")]
+filelist = [os.path.join("home","ubuntu","nginx-loadbalancer","nginx.conf"),
+os.path.join("home","ubuntu","nginx-loadbalancer","docker-compose.yaml")]
 
 print("Please Make sure you are running this script with python 3")
 
-print ("GiggsoDomain to be replaced:")
-giggso_domain_old = input( "> " )
+giggso_domain_old = 'appdomain' 
 
 print ("New Giggso Domain:")
 giggso_domain_new = input( "> " )
 
-print ("KcDomain to be replaced:")
-kc_domain_old = input( "> " )
+kc_domain_old = 'kcdomain' 
 
-print ("New Giggso Domain:")
+print ("New Giggso keycloak Domain:")
 kc_domain_new = input( "> " )
 
 replaced_text = {kc_domain_old: kc_domain_new,
@@ -33,3 +34,5 @@ with fileinput.input(files = filelist , inplace=True) as f:
             if f_key in line:
                 line = line.replace(f_key, f_value)
         print(line)
+
+print ("Domain names are updated")

@@ -1,1 +1,1 @@
-{"gggroupapps":{"mappings":{}}}
+{"gggroupapps":{"mappings":{"properties":{"externalAppId":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}},"externalAppName":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}},"groupAppId":{"type":"long"},"groupId":{"type":"long"},"parent_child":{"properties":{"name":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}}}},"resourceId":{"type":"long"}}}}}

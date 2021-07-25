@@ -6,7 +6,7 @@ metadata:
 data:
   jvm.config: |-
     -server
-    -Xmx16G
+    -Xmx32G
     -XX:-UseBiasedLocking
     -XX:+UseG1GC
     -XX:G1HeapRegionSize=32M
@@ -31,9 +31,9 @@ data:
   config.properties.worker: |-
     coordinator=false
     http-server.http.port=8080
-    query.max-memory=200GB
-    query.max-memory-per-node=10GB
-    query.max-total-memory-per-node=10GB
+    query.max-memory=32GB
+    query.max-memory-per-node=16GB
+    query.max-total-memory-per-node=20GB
     query.max-stage-count=200
     task.writer-count=4
     discovery.uri=http://trino:8080
@@ -55,6 +55,7 @@ data:
     #hive.s3.aws-secret-key=
     hive.metastore-timeout=60s
     hive.recursive-directories=true
+    hive.orc.use-column-names=true
     #hive.cache.enabled=true
     #hive.cache.location=/opt/hive-cache
     #hive.s3select-pushdown.enabled=true
@@ -67,7 +68,6 @@ data:
     kafka.hide-internal-columns=false
     kafka.table-names=tpch.customer,tpch.orders,tpch.lineitem,tpch.part,tpch.partsupp,tpch.supplier,tpch.nation,tpch.region,gg-noncore-errors,gglograwdata,gg-capacity-alerts,my-topic,sample,test,quickstart-events,gglogs,ggerrorprocessed,ggprocessess,ggerrors,ggrulematches,ggruleprocessed,gganomalies,gg-noncore-data,gglogs-00-05,gglogs-00-10,gglogs-00-15,gglogs-00-20,gglogs-00-25,gglogs-00-30,gglogs-00-35,gglogs-00-40,gglogs-00-45,gglogs-00-50,gglogs-00-55,gglogs-01-00,gglogs-01-05,gglogs-01-10,gglogs-01-15,gglogs-01-20,gglogs-01-25,gglogs-01-30,gglogs-01-35,gglogs-01-40,gglogs-01-45,gglogs-01-50,gglogs-01-55,gglogs-02-00,gglogs-02-05,gglogs-02-10,gglogs-02-15,gglogs-02-20,gglogs-02-25,gglogs-02-30,gglogs-02-35,gglogs-02-40,gglogs-02-45,gglogs-02-50,gglogs-02-55,gglogs-03-00,gglogs-03-05,gglogs-03-10,gglogs-03-15,gglogs-03-20,gglogs-03-25,gglogs-03-30,gglogs-03-35,gglogs-03-40,gglogs-03-45,gglogs-03-50,gglogs-03-55,gglogs-04-00,gglogs-04-05,gglogs-04-10,gglogs-04-15,gglogs-04-20,gglogs-04-25,gglogs-04-30,gglogs-04-35,gglogs-04-40,gglogs-04-45,gglogs-04-50,gglogs-04-55,gglogs-05-00,gglogs-05-05,gglogs-05-10,gglogs-05-15,gglogs-05-20,gglogs-05-25,gglogs-05-30,gglogs-05-35,gglogs-05-40,gglogs-05-45,gglogs-05-50,gglogs-05-55,gglogs-06-00,gglogs-06-05,gglogs-06-10,gglogs-06-15,gglogs-06-20,gglogs-06-25,gglogs-06-30,gglogs-06-35,gglogs-06-40,gglogs-06-45,gglogs-06-50,gglogs-06-55,gglogs-07-00,gglogs-07-05,gglogs-07-10,gglogs-07-15,gglogs-07-20,gglogs-07-25,gglogs-07-30,gglogs-07-35,gglogs-07-40,gglogs-07-45,gglogs-07-50,gglogs-07-55,gglogs-08-00,gglogs-08-05,gglogs-08-10,gglogs-08-15,gglogs-08-20,gglogs-08-25,gglogs-08-30,gglogs-08-35,gglogs-08-40,gglogs-08-45,gglogs-08-50,gglogs-08-55,gglogs-09-00,gglogs-09-05,gglogs-09-10,gglogs-09-15,gglogs-09-20,gglogs-09-25,gglogs-09-30,gglogs-09-35,gglogs-09-40,gglogs-09-45,gglogs-09-50,gglogs-09-55,gglogs-10-00,gglogs-10-05,gglogs-10-10,gglogs-10-15,gglogs-10-20,gglogs-10-25,gglogs-10-30,gglogs-10-35,gglogs-10-40,gglogs-10-45,gglogs-10-50,gglogs-10-55,gglogs-11-00,gglogs-11-05,gglogs-11-10,gglogs-11-15,gglogs-11-20,gglogs-11-25,gglogs-11-30,gglogs-11-35,gglogs-11-40,gglogs-11-45,gglogs-11-50,gglogs-11-55,gglogs-12-00,gglogs-12-05,gglogs-12-10,gglogs-12-15,gglogs-12-20,gglogs-12-25,gglogs-12-30,gglogs-12-35,gglogs-12-40,gglogs-12-45,gglogs-12-50,gglogs-12-55,gglogs-13-00,gglogs-13-05,gglogs-13-10,gglogs-13-15,gglogs-13-20,gglogs-13-25,gglogs-13-30,gglogs-13-35,gglogs-13-40,gglogs-13-45,gglogs-13-50,gglogs-13-55,gglogs-14-00,gglogs-14-05,gglogs-14-10,gglogs-14-15,gglogs-14-20,gglogs-14-25,gglogs-14-30,gglogs-14-35,gglogs-14-40,gglogs-14-45,gglogs-14-50,gglogs-14-55,gglogs-15-00,gglogs-15-05,gglogs-15-10,gglogs-15-15,gglogs-15-20,gglogs-15-25,gglogs-15-30,gglogs-15-35,gglogs-15-40,gglogs-15-45,gglogs-15-50,gglogs-15-55,gglogs-16-00,gglogs-16-05,gglogs-16-10,gglogs-16-15,gglogs-16-20,gglogs-16-25,gglogs-16-30,gglogs-16-35,gglogs-16-40,gglogs-16-45,gglogs-16-50,gglogs-16-55,gglogs-17-00,gglogs-17-05,gglogs-17-10,gglogs-17-15,gglogs-17-20,gglogs-17-25,gglogs-17-30,gglogs-17-35,gglogs-17-40,gglogs-17-45,gglogs-17-50,gglogs-17-55,gglogs-18-00,gglogs-18-05,gglogs-18-10,gglogs-18-15,gglogs-18-20,gglogs-18-25,gglogs-18-30,gglogs-18-35,gglogs-18-40,gglogs-18-45,gglogs-18-50,gglogs-18-55,gglogs-18-60,gglogs-19-00,gglogs-19-05,gglogs-19-10,gglogs-19-15,gglogs-19-20,gglogs-19-25,gglogs-19-30,gglogs-19-35,gglogs-19-40,gglogs-19-45,gglogs-19-50,gglogs-19-55,gglogs-20-00,gglogs-20-05,gglogs-20-10,gglogs-20-15,gglogs-20-20,gglogs-20-25,gglogs-20-30,gglogs-20-35,gglogs-20-40,gglogs-20-45,gglogs-20-50,gglogs-20-55,gglogs-21-00,gglogs-21-05,gglogs-21-10,gglogs-21-15,gglogs-21-20,gglogs-21-25,gglogs-21-30,gglogs-21-35,gglogs-21-40,gglogs-21-45,gglogs-21-50,gglogs-21-55,gglogs-22-00,gglogs-22-05,gglogs-22-10,gglogs-22-15,gglogs-22-20,gglogs-22-25,gglogs-22-30,gglogs-22-35,gglogs-22-40,gglogs-22-45,gglogs-22-50,gglogs-22-55,gglogs-23-00,gglogs-23-05,gglogs-23-10,gglogs-23-15,gglogs-23-20,gglogs-23-25,gglogs-23-30,gglogs-23-35,gglogs-23-40,gglogs-23-45,gglogs-23-50,gglogs-23-55,gglogs-24-00
     kafka.nodes=kafka-cluster:9092
-    #kafka.nodes=10.4.0.6:30162
   elasticsearch.properties: |-
     connector.name=elasticsearch
     elasticsearch.host=elasticsearch

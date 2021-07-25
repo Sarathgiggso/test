@@ -42,8 +42,7 @@ spec:
            value: default
          - name: KAFKA_ADDRESS
            value: "kafka-cluster:9092" 
-         image: giggsodocker/loganomaly_jobapi_uat
-        #image: giggsodocker/capacity-k8
+         image: giggsodocker/loganomaly_jobapi
          name: loganomaly-jobapi
          resources:
            requests:

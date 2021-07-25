@@ -18,8 +18,7 @@ global:
 ##
 image:
   registry: docker.io
-  repository: giggsodocker/giggso-mariadb-prod
-  #giggsodocker/mariadb-k8
+  repository: giggsodocker/mariadb-k8
   tag: latest
   #tag: 1.4.0
   ## Specify a imagePullPolicy
@@ -226,11 +225,19 @@ master:
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
   nodeSelector: {}
+  #nodeSelector:
+  #  dedicated_label: coordinator
+  tolerations: []
+  #tolerations:
+  #  - key: "dedicated_label"
+  #    operator: "Equal"
+  #    value: "coordinator"
+  #    effect: "NoSchedule"
 
   ## Tolerations for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
-  tolerations: []
+  #tolerations: []
 
   ## updateStrategy for MariaDB Master StatefulSet
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies

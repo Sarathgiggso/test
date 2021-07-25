@@ -1,0 +1,34 @@
+Steps to destroy the complete infrastructure and dependent resources:
+
+1. ssh to master (where kubectl client is available) and execute
+
+	kubectl get pv | awk '{print $1}' > pvc_list
+
+2. copy the file to bastion VM (where az login is available)
+
+scp pvc_list gguser@<ip>:./pvc_list
+
+2. ssh to bastion and go inside giggso/terraform/infrastructure. Execute below command
+
+	terraform destroy -var-file=../parameters/giggso.tfvars
+
+3. Run the below script in bastion (where pvc_list is copied)
+Note: Resource group name is available in giggso/terraform/parameters/giggso.tfvars
+
+./pvc_delete.sh <resource_group_name>
+
+
+contents of pvc_delete.sh
+=========================
+
+#!/bin/bash
+input="./pvc_list"
+while IFS= read -r line
+do
+  az disk delete --name kubernetes-dynamic-$line --resource-group $1 --yes
+  echo "$line deleted"
+done < "$input"
+
+
+---------------------EOF---------------------------------------------------
+

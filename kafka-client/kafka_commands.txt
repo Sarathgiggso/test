@@ -1,0 +1,7 @@
+some sample commands
+
+
+./bin/kafka-console-consumer.sh --bootstrap-server <worker-node-ip>:30162 --topic gglogs --from-beginning
+./bin/kafka-console-producer.sh --broker-list <worker-node-ip>:30162 --topic gglogs
+./bin/kafka-configs.sh --describe --bootstrap-server <worker-node-ip>:30162 --topic quickstart-events
+./bin/kafka-topics.sh --list --bootstrap-server <worker-node-ip>:30162

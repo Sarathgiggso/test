@@ -11,8 +11,8 @@ metadata:
   name: selfsigned-cert
 spec:
   dnsNames:
-    - ggdev.giggso.com
-    - ggdevkc.giggso.com
+    - appdomain
+    - kcdomain
   secretName: test-cert-tls
   issuerRef:
     name: test-selfsigned

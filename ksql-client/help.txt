@@ -1,0 +1,18 @@
+To install KSQL server 
+
+helm upgrade -i gg-ksqldb ksqldb -f ./ksqldb/values.yaml 
+
+To run the ksql client
+
+kubectl exec -it <ksql-cli-pod-name> ksql http://gg-ksqldb:8088
+
+Example Ksql commands:
+
+list topics;
+print <topicname>;
+CREATE STREAM logstream1 (hostname VARCHAR) WITH (KAFKA_TOPIC='gglograwdata', VALUE_FORMAT='JSON');
+select * from logstream1 EMIT CHANGES LIMIT 5;
+CREATE TABLE gglogtest1 (      id BIGINT PRIMARY KEY, 	 hostname VARCHAR    ) WITH (      KAFKA_TOPIC = 'gglograwdata',       VALUE_FORMAT = 'JSON'    );
+CREATE STREAM pageviews ( hostname VARCHAR) WITH (KAFKA_TOPIC='gglograwdata', VALUE_FORMAT='DELIMITED');
+
+

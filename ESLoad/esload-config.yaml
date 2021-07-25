@@ -11,7 +11,7 @@ data:
     SOURCE_HOST_PASSWORD=changeme
     SOURCE_HOST_CONNECTION_TIMEOUT=100
     CLUSTER_NAME=docker-cluster
-    KAFKA_BOOTSTRAP_SERVER=kafka-cluster:9092 #10.4.0.6:30162
+    KAFKA_BOOTSTRAP_SERVER=kafka-cluster:9092 
 
 kind: ConfigMap
 metadata:

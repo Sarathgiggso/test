@@ -7,9 +7,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: "8202"
-    port: 8202 
-    targetPort: 8202
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
   selector:
     service: error-detection
 

@@ -29,7 +29,7 @@ spec:
         args: ["--server-config", "standalone-full-ha.xml", "-b", $(POD_IP), "-bmanagement", $(POD_IP) ,"-bprivate", $(POD_IP) ]
         env:
         - name: DB_URI
-          value: '10.4.0.7:3306'
+          value: 'giggso-mariadb:3306'
         - name: POD_IP
           valueFrom:
             fieldRef:
@@ -48,50 +48,7 @@ spec:
           value: ' true'
         - name: LC_ALL
           value: en_US.UTF-8
-      #  - name: mariadb_giggso_password
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_giggso_password
-      #        name: env
-      #  - name: mariadb_giggso_schema
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_giggso_schema
-      #        name: env
-      #  - name: mariadb_giggso_user
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_giggso_user
-      #        name: env
-      #  - name: mariadb_hostname
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_hostname
-      #        name: env
-      #  - name: mariadb_keycloak_password
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_keycloak_password
-      #        name: env
-      #  - name: mariadb_keycloak_schema
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_keycloak_schema
-      #        name: env
-      #  - name: mariadb_keycloak_user
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_keycloak_user
-      #        name: env
-      #  - name: mariadb_port
-      #    valueFrom:
-      #      configMapKeyRef:
-      #        key: mariadb_port
-      #        name: env
-        image: giggsodocker/wildfly-k8-uat-aa 
-        #image: giggsodocker/wildfly-k8-uat-chl
-        #p156058/wildfly-v5.2:latest 
-        #p156058/wildfly-v5.2:latest
+        image: giggsodocker/giggso-backend 
         name: kube-ping
         imagePullPolicy: "Always"
         name: wildfly

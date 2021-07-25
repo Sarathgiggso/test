@@ -22,15 +22,13 @@ spec:
       - env:
         - name: ELASTICSEARCH_URL
           value: 'http://elasticsearch:9200'
-          #value: 'http://10.4.0.4:7201'
         - name: LOG_PARSER
           value: 'http://giggso-aiml-logparser:8201/parseLog'
         - name: BERT_ENDPOINT
           value: 'http://bert-encoder:8190/encode'
         - name: BASEQUERY_API_URL
           value: 'https://dev.giggso.com:8443/giggso_kc/rest/groupdashboard/buildBaseGroupQuery/'
-        image: giggsodocker/giggso-aiml-recommended-uat
-        #giggsodocker/gg-recommendations
+        image: giggsodocker/giggso-aiml-recommended
         name: gg-recommendations
         resources:
           requests:

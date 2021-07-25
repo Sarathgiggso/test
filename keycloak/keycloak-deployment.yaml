@@ -22,7 +22,7 @@ spec:
       containers:
       - env:
         - name: DB_ADDR
-          value: "10.4.0.7"
+          value: "giggso-mariadb"
         - name: DB_DATABASE
           value: keycloak
         - name: DB_PASSWORD
@@ -49,7 +49,6 @@ spec:
           value: "WARN"
         - name: ROOT_LOGLEVEL
           value: "WARN"
-        #image: jboss/keycloak:11.0.0
         image: giggsodocker/giggso-keycloak
         imagePullPolicy: "Always"
         name: keycloak-mariadb

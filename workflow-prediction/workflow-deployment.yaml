@@ -19,8 +19,7 @@ spec:
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - image: giggsodocker/workflow-uat
-        #giggsodocker/ask-giggso
+      - image: giggsodocker/workflow
         name: workflow
 #        resources:
 #          requests:

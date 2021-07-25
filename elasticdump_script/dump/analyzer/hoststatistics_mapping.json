@@ -1,1 +1,1 @@
-{"hoststatistics":{"mappings":{"properties":{"date":{"type":"date"}}}}}
+{"hoststatistics":{"mappings":{"properties":{"average_frequency":{"type":"long"},"date":{"type":"date"},"hostname":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}},"maximum_frequency":{"type":"long"},"minimum_frequency":{"type":"long"},"name":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}}}}}}}

@@ -1,1 +1,0 @@
-{"ggrules":{"mappings":{"properties":{"lastProcessedTime":{"type":"date","format":"yyyy-MM-dd'T'HH:mm:ssZ"},"rules":{"type":"text","fields":{"keyword":{"type":"keyword","ignore_above":256}},"analyzer":"keyword_analyzer"}}}}}

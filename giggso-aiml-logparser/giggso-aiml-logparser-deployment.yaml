@@ -22,9 +22,7 @@ spec:
       - env:
         - name: ELASTICSEARCH_URL
           value: 'http://elasticsearch:9200'
-          #value: 'http://10.4.0.4:7201'
-        image: giggsodocker/giggso-aiml-logparser-uat
-        #giggsodocker/giggso-aiml-logparser
+        image: giggsodocker/giggso-aiml-logparser
         name: giggso-aiml-logparser
         resources:
           requests:
@@ -35,7 +33,6 @@ spec:
             memory: "6Gi"
         ports:
         - containerPort: 5000
-          #- containerPort: 2222
       restartPolicy: Always
       nodeSelector:
         dedicated_label: ml

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ksqldb.fullname" . }}
+  labels:
+    {{- include "ksqldb.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+  - name: tcp
+    port: {{ .Values.port }}
+    protocol: TCP
+    targetPort: tcp
+    nodePort: 30088
+  selector:
+    {{- include "ksqldb.selectorLabels" . | nindent 4 }}

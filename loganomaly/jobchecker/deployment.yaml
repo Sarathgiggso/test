@@ -43,8 +43,7 @@ spec:
            value: elasticsearch
          - name: TRINO_SCHEMA
            value: default
-           #image: datatrine/logstash_dts:5.5.2
-        image: giggsodocker/loganomaly_jobchecker_uat
+        image: giggsodocker/loganomaly_jobchecker
         imagePullPolicy: "Always"
         name: loganomaly-jobchecker
         resources:
