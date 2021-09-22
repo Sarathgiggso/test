@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: test
+  name: test
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      service: test
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: test
+    spec:
+      imagePullSecrets:
+      - name:
+      containers:
+      - env:
+        - name: FLT_PROM_URL
+          value: http://ggdev.giggso.com:30090
+        - name: FLT_FROM_ACCESS_TOKEN
+          value: ""
+        - name: NODE_IP
+          value: '{instance="10.4.0.10:9100"}'
+        - name: AZURE_METRIC_ACCOUNT_NAME 
+          value: ""
+        - name: AZURE_METRIC_CONTAINER 
+          value: "metricsanomalytraining"
+        - name: AZURE_METRIC_TOKEN
+          value: ""
+        - name: KAFKA_ADDRESS
+          value: ""
+
+        image: giggsodocker/giggso-aiml-correlated
+        name: correlated-events
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "1Gi"
+          limits:
+            cpu: "250m"
+            memory: "2Gi"
+        ports:
+        - containerPort: 8204
+      restartPolicy: Always
+      nodeSelector:
+        dedicated_label: ml
+      tolerations:
+        - key: "dedicated_label"
+          operator: "Equal"
+          value: "ml"
+          effect: "NoSchedule"
