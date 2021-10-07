@@ -99,7 +99,7 @@ metadata:
   name: trino-worker
 spec:
   serviceName: trino-worker 
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: trino-worker
