@@ -424,7 +424,7 @@ interBrokerListenerName: INTERNAL
 
 ## Number of Kafka brokers to deploy
 ##
-replicaCount: 2
+replicaCount: 1
 
 ## Minimal broker.id value
 ## Brokers increment their ID starting at this minimal value.
