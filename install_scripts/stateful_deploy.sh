@@ -32,6 +32,3 @@ kubectl apply -f ./kibana/
 
 # to deploy ruleengine service
 kubectl apply -f ./ruleengine/
-
-# to deploy ruleengine service
-kubectl apply -f ./ruleengine/
