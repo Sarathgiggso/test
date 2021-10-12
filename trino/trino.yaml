@@ -84,7 +84,7 @@ spec:
         - name: trino-cfg-vol
           configMap:
             name: trino-configs
-      nodeSelector:
+     #nodeSelector:
         dedicated_label: trinomaster
       tolerations:
         - key: "dedicated_label"
@@ -170,7 +170,7 @@ spec:
         - name: trino-cfg-vol
           configMap:
             name: trino-configs
-      nodeSelector:
+      #nodeSelector:
         dedicated_label: trino
       tolerations:
         - key: "dedicated_label"
@@ -199,7 +199,7 @@ spec:
     command: ["tail", "-f", "/dev/null"]
     imagePullPolicy: Always
   restartPolicy: Always
-  nodeSelector:
+  #nodeSelector:
     dedicated_label: trino
   tolerations:
     - key: "dedicated_label"
