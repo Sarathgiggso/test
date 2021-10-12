@@ -85,12 +85,12 @@ spec:
           configMap:
             name: trino-configs
      #nodeSelector:
-        dedicated_label: trinomaster
-      tolerations:
-        - key: "dedicated_label"
-          operator: "Equal"
-          value: "trinomaster"
-          effect: "NoSchedule"
+      #  dedicated_label: trinomaster
+      #tolerations:
+       # - key: "dedicated_label"
+        #  operator: "Equal"
+         # value: "trinomaster"
+          #effect: "NoSchedule"
 
 ---
 apiVersion: apps/v1
@@ -171,12 +171,12 @@ spec:
           configMap:
             name: trino-configs
       #nodeSelector:
-        dedicated_label: trino
-      tolerations:
-        - key: "dedicated_label"
-          operator: "Equal"
-          value: "trino"
-          effect: "NoSchedule"
+       # dedicated_label: trino
+      #tolerations:
+      #  - key: "dedicated_label"
+     #     operator: "Equal"
+          #value: "trino"
+          #effect: "NoSchedule"
   volumeClaimTemplates:
   - metadata:
       name: trino-tmp-data
@@ -200,10 +200,10 @@ spec:
     imagePullPolicy: Always
   restartPolicy: Always
   #nodeSelector:
-    dedicated_label: trino
-  tolerations:
-    - key: "dedicated_label"
-      operator: "Equal"
-      value: "trino"
-      effect: "NoSchedule"
+#    dedicated_label: trino
+ # tolerations:
+  #  - key: "dedicated_label"
+ #     operator: "Equal"
+  #    value: "trino"
+   #   effect: "NoSchedule"
 
