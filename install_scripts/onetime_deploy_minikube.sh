@@ -12,19 +12,17 @@ kubectl apply -f ./docker-secret.yaml
 echo Creating storageclass for PVCs
 kubectl apply -f ./storage_class/ 
 
-# to create NFS Provisioner for wildfly
-echo Creating nfs provisioner for web storage
-helm upgrade -i nfs-giggso nfs-server -f ./nfs-server/values.yaml
 
 # to create mariadb cluster
 echo Installing mariadb cluster
 
-helm upgrade -i giggso-mariadb mariadb-cluster -f ./mariadb-cluster/values-production.yaml
-#(cd ./docker-mariadb)
 sleep 5m
 
 #to deploy kafka
 helm upgrade -i zookeeper-cluster zookeeper -f ./zookeeper/values.yaml 
+
+sleep 5m
+
 helm upgrade -i kafka-cluster kafka -f ./kafka/values.yaml 
 
 sleep 5m
