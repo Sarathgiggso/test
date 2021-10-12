@@ -48,11 +48,11 @@ spec:
         - name: metastore-cfg-vol
           configMap:
             name: metastore-cfg
-      nodeSelector:
-        dedicated_label: coordinator
-      tolerations:
-        - key: "dedicated_label"
-          operator: "Equal"
-          value: "coordinator"
-          effect: "NoSchedule"
+     # nodeSelector:
+      #  dedicated_label: coordinator
+      #tolerations:
+       # - key: "dedicated_label"
+        #  operator: "Equal"
+         # value: "coordinator"
+          #effect: "NoSchedule"
 
