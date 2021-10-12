@@ -32,3 +32,11 @@ kubectl apply -f ./kibana/
 
 # to deploy ruleengine service
 kubectl apply -f ./ruleengine/
+
+#to deploy java microservices
+kubectl apply -f ./error-detection/
+kubectl apply -f ./ESLoad/
+kubectl apply -f ./EnrichData/
+kubectl apply -f ./webpush/
+kubectl apply -f ./NoncoreLogAggregator/
+
