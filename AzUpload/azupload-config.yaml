@@ -1,34 +1,19 @@
 apiVersion: v1
 data:
-  giggsoaccess.properties: |
+  giggsoaccess.properties: 
+  apiVersion: v1
+data:
+  rulemicroservice.properties: |
     ##########################################################################################################
     ###### Elastic Search Source Configuration ###############################################################
-
-    KAFKA_BOOTSTRAP_SERVER=kafka-cluster:9092
-    BLOB-CONNECTION=DefaultEndpointsProtocol=https;AccountName=storageaccountname;AccountKey=storageaccesskey;EndpointSuffix=core.windows.net
-    BLOB-CONTAINER-NAME=gglogs
     SOURCE_SCHEMA=http
-    SOURCE_HOST=elasticsearch
-    SOURCE_PORT=9300
+    SOURCE_HOST=dev.giggso.com
+    SOURCE_PORT=7300
+    SOURCE_REST_PORT=7201
     SOURCE_HOST_USERNAME=elastic
     SOURCE_HOST_PASSWORD=changeme
     SOURCE_HOST_CONNECTION_TIMEOUT=100
     CLUSTER_NAME=docker-cluster
-    KAFKA_FETCH_ROW_COUNT=10000
-    UPLOAD_FILE_FORMAT=orc
-    UPLOAD_FILE_COMPRESSION_CODEC=zlib
-    UPLOAD_FILE_MIN_SIZE=500
-
-    ##########################################################################################################
-
-    #######################################
-    ########## Trino Config ###############
-    TRINO_JDBC_DRIVER=io.trino.jdbc.TrinoDriver
-    TRINO_JDBC_BASE_URL=jdbc:trino://trino:8080/kafka/default
-    TRINO_KAFKA_USER=test
-    #######################################
-
-    GGLOGS_LOG_PATH = \
     
 
 kind: ConfigMap

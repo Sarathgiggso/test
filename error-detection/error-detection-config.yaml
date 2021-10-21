@@ -33,5 +33,5 @@ data:
 
 kind: ConfigMap
 metadata:
-  name: azupload-config
+  name: error-detection-config
 

@@ -60,8 +60,8 @@ data:
     #hive.cache.location=/opt/hive-cache
     #hive.s3select-pushdown.enabled=true
     #hive.azure.wasb-storage-account=giggsotrinouat
-    hive.azure.wasb-access-key=storageaccesskey
-    hive.azure.wasb-storage-account=storageaccountname
+    hive.azure.wasb-access-key=laT2lQYukJcPHQmqDUVpu5zZS1z6jYk3oF3uiucgtkCtA+ijciVawLz27nSMrRJ9mjHZ5vmEo7w3woSKBZm2cQ==
+    hive.azure.wasb-storage-account=ggdevcoldstorage
     hive.non-managed-table-writes-enabled=true
   kafka.properties: |-
     connector.name=kafka

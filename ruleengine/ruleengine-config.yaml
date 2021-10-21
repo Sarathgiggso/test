@@ -4,9 +4,9 @@ data:
     ##########################################################################################################
     ###### Elastic Search Source Configuration ###############################################################
     SOURCE_SCHEMA=http
-    SOURCE_HOST=elasticsearch
-    SOURCE_PORT=9300
-    SOURCE_REST_PORT=9200
+    SOURCE_HOST=dev.giggso.com
+    SOURCE_PORT=7300
+    SOURCE_REST_PORT=7201
     SOURCE_HOST_USERNAME=elastic
     SOURCE_HOST_PASSWORD=changeme
     SOURCE_HOST_CONNECTION_TIMEOUT=100

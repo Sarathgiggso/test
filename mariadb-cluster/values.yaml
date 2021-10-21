@@ -336,8 +336,8 @@ master:
     annotations: {}
     #   external-dns.alpha.kubernetes.io/hostname: db.example.com
 
-slave:
-  replicas: 1
+    #slave:
+    # replicas: 1
 
   ## Mariadb Slave additional pod annotations
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/

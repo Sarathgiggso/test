@@ -27,7 +27,7 @@ spec:
             memory: "1Gi"
           limits:
             cpu: "450m"
-            memory: "4Gi"
+            memory: "1Gi"
         volumeMounts:
         - mountPath: /rulemicroservice.properties
           subPath: rulemicroservice.properties

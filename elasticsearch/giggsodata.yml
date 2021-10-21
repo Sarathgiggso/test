@@ -13,7 +13,7 @@ roles:
   ingest: "true"
   data: "true"
 
-replicas: 2
+replicas: 1
 #minimumMasterNodes: 1
 
 esMajorVersion: ""
@@ -102,7 +102,7 @@ volumeClaimTemplate:
   storageClassName: ssd-os-disk
   resources:
     requests:
-      storage: 50Gi
+      storage: 2Gi
 #    storageClassName: azure-os-disk 
 rbac:
   create: false
@@ -228,14 +228,14 @@ schedulerName: ""
 
 imagePullSecrets:
   - name: docker-secret
-nodeSelector:
-  dedicated_label: elastic
+    #nodeSelector:
+    # dedicated_label: elastic
   #tolerations: []
-tolerations:
-  - key: "dedicated_label"
-    operator: "Equal"
-    value: "elastic"
-    effect: "NoSchedule"
+  #tolerations:
+  # - key: "dedicated_label"
+  # operator: "Equal"
+  # value: "elastic"
+  # effect: "NoSchedule"
 
 # Enabling this will publically expose your Elasticsearch instance.
 # Only enable this if you have security enabled on your cluster

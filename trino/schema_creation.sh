@@ -1,4 +1,4 @@
-CREATE SCHEMA hive.logs WITH (location = 'wasbs://gglogs@storageaccountname.blob.core.windows.net/');
+CREATE SCHEMA hive.logs WITH (location = 'wasbs://gglogs@ggdevcoldstorage.blob.core.windows.net/');
 CREATE TABLE hive.logs.gglogs (
 		hostApiToken varchar,
 		message varchar,
@@ -12,7 +12,7 @@ CREATE TABLE hive.logs.gglogs (
 		date int
 	 ) 
 	 WITH (
-		external_location = 'wasbs://gglogs@storageaccountname.blob.core.windows.net/',
+		external_location = 'wasbs://gglogs@ggdevcoldstorage.blob.core.windows.net/',
 		format = 'ORC',
 		partitioned_by = ARRAY['year','month','date']
 	 );

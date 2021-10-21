@@ -5,7 +5,7 @@ metadata:
     service: error-detection
   name: error-detection
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: "8080"
     port: 8080

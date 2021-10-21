@@ -102,8 +102,7 @@ volumePermissions:
 ##
 updateStrategy: RollingUpdate
 
-## Limits the number of pods of the 
-ted application that are down simultaneously from voluntary disruptions
+## Limits the number of pods of the replicated application that are down simultaneously from voluntary disruptions
 ## The PDB will only be created if replicaCount is greater than 1
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions
 ##
@@ -353,14 +352,14 @@ affinity: {}
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
-nodeSelector:
-  dedicated_label: coordinator
-  #tolerations: []
-tolerations:
-  - key: "dedicated_label"
-    operator: "Equal"
-    value: "coordinator"
-    effect: "NoSchedule"
+#nodeSelector:
+#  dedicated_label: coordinator
+#  #tolerations: []
+#tolerations:
+#  - key: "dedicated_label"
+#    operator: "Equal"
+#    value: "coordinator"
+#    effect: "NoSchedule"
 
 #nodeSelector: {}
 

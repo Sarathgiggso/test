@@ -16,3 +16,14 @@ kubectl apply -f ./AzUpload/
 kubectl apply -f ./webpush/
 kubectl apply -f ./NoncoreLogAggregator/
 
+
+
+
+
+echo Deploying nginx ingress controller
+# to install nginx ingress controller
+(cd ./ingress;
+./ingress-daemonset.sh)
+
+
+kubectl apply -f ./ingress/ingress-gateway.yaml

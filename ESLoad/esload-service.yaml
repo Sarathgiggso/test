@@ -5,7 +5,7 @@ metadata:
     service: giggso-esload
   name: giggso-esload
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: "8080"
     port: 8080
